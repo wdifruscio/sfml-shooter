@@ -17,6 +17,15 @@ int main()
     spriteBackground.setPosition(0,0);
     spriteBackground.setScale(3.125,2.34);
 
+    Texture textureShip;
+    textureShip.loadFromFile("assets/player.png");
+
+    Sprite playerShip;
+    playerShip.setTexture(textureShip);
+    playerShip.getLocalBounds();
+
+
+
     while (window.isOpen())
     {
         if (Keyboard::isKeyPressed(Keyboard::Escape))
