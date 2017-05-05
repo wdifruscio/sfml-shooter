@@ -11,6 +11,8 @@ int main()
     RenderWindow window(vm,"Game Boilerplate");
     window.setFramerateLimit(60);
 
+    //instantiate textures
+
     Texture textureBackground;
     textureBackground.loadFromFile("assets/purple.png");
     textureBackground.setRepeated(true);
