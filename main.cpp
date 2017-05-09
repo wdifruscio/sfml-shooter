@@ -27,7 +27,7 @@ int main()
     Sprite playerShip;
     playerShip.setTexture(textureShip);
     playerShip.setPosition(1920 / 2.0f , 900);
-    float playerSpeed = 2;
+    float playerSpeed = 5;
 
     bool leftArrowPressed = false, rightArrowPressed = false, upArrowPressed = false, downArrowPressed = false;
 
@@ -78,6 +78,18 @@ int main()
         else if(rightArrowPressed)
         {
             playerShip.move(Vector2f(playerSpeed, 0));
+        }
+
+        //handle out of bounds
+
+        if(playerShip.getPosition().x > 1920)
+        {
+            playerShip.setPosition(-100, 900);
+        }
+
+        if(playerShip.getPosition().x < -100)
+        {
+            playerShip.setPosition(1920,900);
         }
 
 
