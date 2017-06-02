@@ -11,6 +11,7 @@ class Player
     ~Player();
     sf::Sprite sprite;
     double speed;
+    void handleSprite();
 };
 
 #endif

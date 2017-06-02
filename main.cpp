@@ -116,25 +116,7 @@ int main()
             player.sprite.move(Vector2f(0, playerSpeed));
         }
 
-        //handle out of bounds
-
-        if(player.sprite.getPosition().x > 525)
-        {
-            player.sprite.setPosition(525, player.sprite.getPosition().y);
-        }
-
-        if(player.sprite.getPosition().x < -20)
-        {
-            player.sprite.setPosition(-20,player.sprite.getPosition().y);
-        }
-
-        if(player.sprite.getPosition().y < 0) {
-            player.sprite.setPosition(player.sprite.getPosition().x, 0);
-        }
-        
-        if(player.sprite.getPosition().y > 725) {
-            player.sprite.setPosition(player.sprite.getPosition().x, 725);
-        }
+        player.handleSprite();
 
         window.clear();
 
