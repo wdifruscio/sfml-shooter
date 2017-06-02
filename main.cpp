@@ -7,7 +7,7 @@ using namespace sf;
 
 int main()
 {
-    VideoMode vm(1920,1080);
+    VideoMode vm(600,800);
     RenderWindow window(vm,"Game Boilerplate");
     window.setFramerateLimit(60);
 
@@ -19,14 +19,14 @@ int main()
 
     Sprite spriteBackground;
     spriteBackground.setTexture(textureBackground);
-    spriteBackground.setTextureRect(IntRect(0, 0, 1920, 1080));
+    spriteBackground.setTextureRect(IntRect(0, 0, 600,800));
     
     Texture textureShip;
     textureShip.loadFromFile("assets/player.png");
 
     Sprite playerShip;
     playerShip.setTexture(textureShip);
-    playerShip.setPosition(1920 / 2.0f , 900);
+    playerShip.setPosition(600 / 2.0f , 700);
     float playerSpeed = 5;
 
     bool leftArrowPressed = false, rightArrowPressed = false, upArrowPressed = false, downArrowPressed = false;
@@ -53,6 +53,15 @@ int main()
                     case Keyboard::Right:
                     rightArrowPressed = true;
                     break;
+
+                    case Keyboard::Up:
+                    upArrowPressed = true;
+                    break;
+
+                    case Keyboard::Down:
+                    downArrowPressed = true;
+                    break;
+
                 }
             }
             
@@ -67,6 +76,14 @@ int main()
                     case Keyboard::Right:
                     rightArrowPressed = false;
                     break;
+
+                    case Keyboard::Up:
+                    upArrowPressed = false;
+                    break;                    
+
+                    case Keyboard::Down:
+                    downArrowPressed = false;
+                    break;
                 }
             }
         }
@@ -79,17 +96,25 @@ int main()
         {
             playerShip.move(Vector2f(playerSpeed, 0));
         }
+        else if(upArrowPressed)
+        {
+            playerShip.move(Vector2f(0, -playerSpeed));
+        }
+        else if(downArrowPressed)
+        {
+            playerShip.move(Vector2f(0, playerSpeed));
+        }
 
         //handle out of bounds
 
-        if(playerShip.getPosition().x > 1920)
+        if(playerShip.getPosition().x > 525)
         {
-            playerShip.setPosition(-100, 900);
+            playerShip.setPosition(525, playerShip.getPosition().y);
         }
 
-        if(playerShip.getPosition().x < -100)
+        if(playerShip.getPosition().x < -20)
         {
-            playerShip.setPosition(1920,900);
+            playerShip.setPosition(-20,playerShip.getPosition().y);
         }
 
 
