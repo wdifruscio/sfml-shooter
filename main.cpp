@@ -1,7 +1,9 @@
+#include <SFML/Graphics.hpp>
 #include <stdio.h>
 #include <iostream>
-#include <SFML/Graphics.hpp>
 #include <vector>
+
+#include "Player.hpp"
 
 using namespace sf;
 
@@ -28,9 +30,10 @@ int main()
     Texture textureShip;
     textureShip.loadFromFile("assets/player.png");
 
-    Sprite playerShip;
-    playerShip.setTexture(textureShip);
-    playerShip.setPosition(600 / 2.0f , 700);
+    Player player(textureShip);
+    player.sprite.setPosition(600 / 2.0f , 700);
+    
+
     float playerSpeed = 5;
     bool leftArrowPressed = false, rightArrowPressed = false, upArrowPressed = false, downArrowPressed = false;
 
@@ -98,46 +101,46 @@ int main()
 
         if(leftArrowPressed)
         {
-            playerShip.move(Vector2f(-playerSpeed, 0));
+            player.sprite.move(Vector2f(-playerSpeed, 0));
         }
         if(rightArrowPressed)
         {
-            playerShip.move(Vector2f(playerSpeed, 0));
+            player.sprite.move(Vector2f(playerSpeed, 0));
         }
         if(upArrowPressed)
         {
-            playerShip.move(Vector2f(0, -playerSpeed));
+            player.sprite.move(Vector2f(0, -playerSpeed));
         }
         if(downArrowPressed)
         {
-            playerShip.move(Vector2f(0, playerSpeed));
+            player.sprite.move(Vector2f(0, playerSpeed));
         }
 
         //handle out of bounds
 
-        if(playerShip.getPosition().x > 525)
+        if(player.sprite.getPosition().x > 525)
         {
-            playerShip.setPosition(525, playerShip.getPosition().y);
+            player.sprite.setPosition(525, player.sprite.getPosition().y);
         }
 
-        if(playerShip.getPosition().x < -20)
+        if(player.sprite.getPosition().x < -20)
         {
-            playerShip.setPosition(-20,playerShip.getPosition().y);
+            player.sprite.setPosition(-20,player.sprite.getPosition().y);
         }
 
-        if(playerShip.getPosition().y < 0) {
-            playerShip.setPosition(playerShip.getPosition().x, 0);
+        if(player.sprite.getPosition().y < 0) {
+            player.sprite.setPosition(player.sprite.getPosition().x, 0);
         }
         
-        if(playerShip.getPosition().y > 725) {
-            playerShip.setPosition(playerShip.getPosition().x, 725);
+        if(player.sprite.getPosition().y > 725) {
+            player.sprite.setPosition(player.sprite.getPosition().x, 725);
         }
 
         window.clear();
 
         //rendering
         window.draw(spriteBackground);
-        window.draw(playerShip);
+        window.draw(player.sprite);
 
         window.display();
     }
