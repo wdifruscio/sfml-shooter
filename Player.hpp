@@ -9,9 +9,9 @@ class Player
     public:
     Player(sf::Texture &texture);
     ~Player();
+    void handleSprite();
     sf::Sprite sprite;
     double speed;
-    void handleSprite();
 };
 
 #endif

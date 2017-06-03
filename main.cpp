@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Player.hpp"
+#include "Bullet.hpp"
 
 using namespace sf;
 
@@ -30,12 +31,17 @@ int main()
     Texture textureShip;
     textureShip.loadFromFile("assets/player.png");
 
+    Texture textureBullet;
+    textureBullet.loadFromFile("assets/bullet.png");
+
     Player player(textureShip);
     player.sprite.setPosition(600 / 2.0f , 700);
+
+    std::vector<Bullet> bulletList;
     
 
     float playerSpeed = 5;
-    bool leftArrowPressed = false, rightArrowPressed = false, upArrowPressed = false, downArrowPressed = false;
+    bool leftArrowPressed = false, rightArrowPressed = false, upArrowPressed = false, downArrowPressed = false, spaceKeyPressed = false;
 
     while (window.isOpen())
     {
@@ -73,6 +79,9 @@ int main()
                     downArrowPressed = true;
                     break;
 
+                    case Keyboard::Space:
+                    spaceKeyPressed = true;
+                    break;
                 }
             }
             
@@ -95,6 +104,10 @@ int main()
                     case Keyboard::Down:
                     downArrowPressed = false;
                     break;
+
+                    case Keyboard::Space:
+                    spaceKeyPressed = false;
+                    break;
                 }
             }
         }
@@ -115,12 +128,24 @@ int main()
         {
             player.sprite.move(Vector2f(0, playerSpeed));
         }
+        if(spaceKeyPressed)
+        {   
+            int currentX = player.sprite.getPosition().x;
+            int currentY = player.sprite.getPosition().y;
+            Bullet bullet(200, 200, textureBullet);
+            bulletList.push_back(bullet);
+        }
 
+        
         player.handleSprite();
 
         window.clear();
+        
+        for(unsigned i = 0; i > bulletList.size(); i++)
+        {
+            window.draw(bulletList[i].sprite);
+        }
 
-        //rendering
         window.draw(spriteBackground);
         window.draw(player.sprite);
 
