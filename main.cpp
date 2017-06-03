@@ -132,7 +132,7 @@ int main()
         {   
             int currentX = player.sprite.getPosition().x;
             int currentY = player.sprite.getPosition().y;
-            Bullet bullet(200, 200, textureBullet);
+            Bullet bullet(currentX, currentY - 10, textureBullet);
             bulletList.push_back(bullet);
         }
 
@@ -140,15 +140,17 @@ int main()
         player.handleSprite();
 
         window.clear();
-        
-        for(unsigned i = 0; i > bulletList.size(); i++)
-        {
-            window.draw(bulletList[i].sprite);
-        }
 
         window.draw(spriteBackground);
         window.draw(player.sprite);
 
+        // this doesnt work =[
+        for(unsigned i = 0; i > bulletList.size(); i++)
+        {
+            Bullet current = bulletList[i];
+            window.draw(current.sprite);
+        }
+        
         window.display();
     }
     return 0;
