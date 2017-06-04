@@ -63,13 +63,18 @@ int main() {
         window.draw(sBackground);
         window.draw(player.sprite);
 
-        for(std::vector<Bullet>::size_type i = 0; i != bullets.size(); i++) {
-            sBullet.setPosition(bullets[i].x, bullets[i].y - bullets[i].dy);
-            window.draw(sBullet);
-            std::cout << "BULLET POS Y: " << bullets[i].y << std::endl;
-            if(bullets[i].y < 0 || bullets[i].y > 800)
-                bullets.erase(bullets.begin() + i);
-        }
+        
+            for(std::vector<Bullet>::size_type i = 0; i != bullets.size(); i++) {
+                sBullet.setPosition(bullets[i].x, bullets[i].y - bullets[i].dy);
+                bullets[i].y -= bullets[i].dy;
+                window.draw(sBullet);
+                std::cout << "BULLET POS Y: " << bullets[i].y << std::endl;
+                if(bullets.size() != 0) 
+                    if(bullets[i].y < 0 || bullets[i].y > 800)
+                        bullets.erase(bullets.begin() + 0);
+                        break;
+                    
+            }
 
         window.display();
     }
