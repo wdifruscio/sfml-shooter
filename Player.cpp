@@ -1,30 +1,18 @@
 #include "Player.hpp"
 #include <SFML/Graphics.hpp>
 
-Player::Player(sf::Texture &texture)
+Player::Player(sf::Texture &texture, int start_x, int start_y, int initSpeed)
 {
     sprite.setTexture(texture);
+    x = start_x; y = start_y; speed = initSpeed; // Inital starting position and speed
 };
 
 Player::~Player(){};
 
 void Player::handleSprite()
 {
-    if(sprite.getPosition().x > 525)
-    {
-        sprite.setPosition(525, sprite.getPosition().y);
-    }
-
-    if(sprite.getPosition().x < -20)
-    {
-        sprite.setPosition(-20,sprite.getPosition().y);
-    }
-
-    if(sprite.getPosition().y < 0) {
-        sprite.setPosition(sprite.getPosition().x, 0);
-    }
-    
-    if(sprite.getPosition().y > 725) {
-        sprite.setPosition(sprite.getPosition().x, 725);
-    }
+    if(x > 525) x -= speed;
+    if(x < -20) x += speed;
+    if(y  <  0) y += speed;
+    if(y > 725) y -= speed;
 }
