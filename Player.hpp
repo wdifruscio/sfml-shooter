@@ -1,4 +1,4 @@
-#ifndef PLAYER 
+#ifndef PLAYER
 #define PLAYER
 
 #include <SFML/Graphics.hpp>
@@ -7,11 +7,13 @@
 class Player
 {
     public:
-    Player(sf::Texture &texture);
+    Player(sf::Texture &texture, int start_x, int start_y, int init_speed);
     ~Player();
     void handleSprite();
     sf::Sprite sprite;
-    double speed;
+    int speed;
+    int x;
+    int y;
 };
 
 #endif

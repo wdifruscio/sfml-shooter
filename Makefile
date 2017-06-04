@@ -1,5 +1,5 @@
 
-OBJS = main.cpp Player.cpp Bullet.cpp
+OBJS = main.cpp Player.cpp
 CC = g++
 COMPILER_FLAGS = -W
 LINKER_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system
@@ -9,4 +9,4 @@ all : $(OBJS)
 	$(CC) $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
 
 clean:
-	rm -rf *.o 
+	rm -rf *.o
