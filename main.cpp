@@ -46,6 +46,7 @@ int main() {
         if(Keyboard::isKeyPressed(Keyboard::Left))  player.x -= player.speed;
         if(Keyboard::isKeyPressed(Keyboard::Up))    player.y -= player.speed;
         if(Keyboard::isKeyPressed(Keyboard::Down))  player.y += player.speed;
+        if(Keyboard::isKeyPressed(Keyboard::Escape)) window.close();
         player.handleSprite();
 
         if(Keyboard::isKeyPressed(Keyboard::Space) && delay < player_bullet_timer) {
@@ -73,7 +74,6 @@ int main() {
                     if(bullets[i].y < 0 || bullets[i].y > 800)
                         bullets.erase(bullets.begin() + 0);
                         break;
-                    
             }
 
         window.display();
