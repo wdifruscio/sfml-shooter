@@ -28,7 +28,7 @@ int main() {
     Player player(t3, 300, 700, 5);
 
     int player_bullet_speed = 10;
-    float player_bullet_timer = 0.0f, delay = 1.0f, time = 0.0f;
+    float player_bullet_timer = 0.0f, delay = 0.2f, time = 0.0f;
     Clock clock;
     std::vector<Bullet> bullets;
 
@@ -63,17 +63,20 @@ int main() {
         window.clear();
         window.draw(sBackground);
         window.draw(player.sprite);
-
         
-            for(std::vector<Bullet>::size_type i = 0; i != bullets.size(); i++) {
-                sBullet.setPosition(bullets[i].x, bullets[i].y - bullets[i].dy);
-                bullets[i].y -= bullets[i].dy;
-                window.draw(sBullet);
-                std::cout << "BULLET POS Y: " << bullets[i].y << std::endl;
-                if(bullets.size() != 0) 
-                    if(bullets[i].y < 0 || bullets[i].y > 800)
-                        bullets.erase(bullets.begin() + 0);
-                        break;
+            std::vector<Bullet>::iterator i = bullets.begin();
+            while(i != bullets.end()) {
+                sBullet.setPosition(i->x, i->y - i->dy);
+                i->y -= i->dy;
+                std::cout << "BULLET POS Y: " << i->y << std::endl;
+                if(i->y > 0 ) {
+                    window.draw(sBullet);
+                    i++;
+                }
+                else {
+                    bullets.erase(bullets.begin());
+                }
+                        
             }
 
         window.display();
