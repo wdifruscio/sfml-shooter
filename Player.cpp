@@ -5,6 +5,9 @@ Player::Player(sf::Texture &texture, int start_x, int start_y, int initSpeed)
 {
     sprite.setTexture(texture);
     x = start_x; y = start_y; speed = initSpeed; // Inital starting position and speed
+    sf::FloatRect localBounds = sprite.getLocalBounds();
+    w = localBounds.width;
+    h = localBounds.height;
 };
 
 Player::~Player(){};

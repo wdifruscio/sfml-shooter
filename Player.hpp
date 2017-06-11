@@ -14,6 +14,8 @@ class Player
     int speed;
     int x;
     int y;
+    int w;
+    int h;
 };
 
 #endif
