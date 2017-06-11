@@ -26,6 +26,7 @@ int main() {
     Sprite sBackground(t1), sBullet(t2);
     sBackground.setTextureRect(IntRect(0, 0, 600,800));
     Player player(t3, 300, 700, 5);
+    FloatRect sBulletBounds = sBullet.getLocalBounds();
 
     int player_bullet_speed = 10;
     float player_bullet_timer = 0.0f, delay = 0.2f, time = 0.0f;
@@ -50,7 +51,7 @@ int main() {
         player.handleSprite();
 
         if(Keyboard::isKeyPressed(Keyboard::Space) && delay < player_bullet_timer) {
-            int x = player.x, y = player.y;
+            int x = player.x + player.w / 2.0f - sBulletBounds.width / 2.0f, y = player.y;
             Bullet bullet;
             bullet.x = x; bullet.y = y, bullet.dy = player_bullet_speed;
             std::cout << "PLAYER Y: " << player.y << "\t" << "BULLET Y: " << bullet.y << std::endl;
@@ -74,7 +75,7 @@ int main() {
                     i++;
                 }
                 else {
-                    bullets.erase(bullets.begin());
+                    bullets.erase(i);
                 }
                         
             }
