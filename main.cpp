@@ -11,19 +11,24 @@ struct Bullet {
     int x, y, dy;
 };
 
+struct Asteroid {
+    int x,y,dy;
+};
+
 int main() {
     VideoMode vm(600,800);
     RenderWindow window(vm,"Game Boilerplate");
     window.setFramerateLimit(60);
 
-    Texture t1, t2, t3;
+    Texture t1, t2, t3, t4;
     t1.loadFromFile("assets/purple.png");
     t2.loadFromFile("assets/bullet.png");
     t3.loadFromFile("assets/player.png");
-
+    t4.loadFromFile("assets/asteroid_1.png");
+    
     t1.setRepeated(true);
 
-    Sprite sBackground(t1), sBullet(t2);
+    Sprite sBackground(t1), sBullet(t2), sAsteroid(t4);
     sBackground.setTextureRect(IntRect(0, 0, 600,800));
     Player player(t3, 300, 700, 5);
     FloatRect sBulletBounds = sBullet.getLocalBounds();
@@ -32,6 +37,9 @@ int main() {
     float player_bullet_timer = 0.0f, delay = 0.2f, time = 0.0f;
     Clock clock;
     std::vector<Bullet> bullets;
+    std::vector<Asteroid> asteroids;
+
+
 
     while (window.isOpen()) {
         time = clock.getElapsedTime().asSeconds();
@@ -59,6 +67,13 @@ int main() {
             player_bullet_timer = 0;
             std::cout << "BULLET CREATED Y POSITION: " << bullets[bullets.size() - 1].y << "\tBULLETS SIZE: " << bullets.size() << std::endl;
         }
+        if(Keyboard::isKeyPressed(Keyboard::E)) {
+            int x = 500, y = 100;
+            Asteroid asteroid;
+            asteroid.x = y; asteroid.y = y; asteroid.dy = player_bullet_speed;
+            asteroids.push_back(asteroid);
+            std::cout << "WAT" << std::endl;
+        }
 
         player.sprite.setPosition(player.x, player.y);
         window.clear();
@@ -66,6 +81,7 @@ int main() {
         window.draw(player.sprite);
         
             std::vector<Bullet>::iterator i = bullets.begin();
+            std::vector<Asteroid>::iterator j = asteroids.begin();
             while(i != bullets.end()) {
                 sBullet.setPosition(i->x, i->y - i->dy);
                 i->y -= i->dy;
@@ -77,8 +93,23 @@ int main() {
                 else {
                     bullets.erase(i);
                 }
-                        
             }
+            while(j!= asteroids.end()) {
+                sAsteroid.setPosition(j->x, j->y);
+                j->y++;
+                 std::cout << "ASTEROID POS Y: " << j->y << std::endl;
+                if(j->y < 800 ) {
+                    window.draw(sAsteroid);
+                    j++;
+                }
+                else {
+                    asteroids.erase(j);
+                }  
+            }
+
+            // if( i->y == j->y  && i->x == j->x) {
+            //     std::cout << "Collision!! " << std::endl;
+            // }
 
         window.display();
     }
