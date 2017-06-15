@@ -70,46 +70,52 @@ int main() {
         if(Keyboard::isKeyPressed(Keyboard::E)) {
             int x = 500, y = 100;
             Asteroid asteroid;
-            asteroid.x = y; asteroid.y = y; asteroid.dy = player_bullet_speed;
+            asteroid.x = y; asteroid.y = y; asteroid.dy = 1;
             asteroids.push_back(asteroid);
-            std::cout << "WAT" << std::endl;
         }
 
         player.sprite.setPosition(player.x, player.y);
         window.clear();
         window.draw(sBackground);
         window.draw(player.sprite);
-        
-            std::vector<Bullet>::iterator i = bullets.begin();
-            std::vector<Asteroid>::iterator j = asteroids.begin();
-            while(i != bullets.end()) {
-                sBullet.setPosition(i->x, i->y - i->dy);
-                i->y -= i->dy;
-                std::cout << "BULLET POS Y: " << i->y << std::endl;
-                if(i->y > 0 ) {
-                    window.draw(sBullet);
-                    i++;
-                }
-                else {
-                    bullets.erase(i);
-                }
-            }
-            while(j!= asteroids.end()) {
-                sAsteroid.setPosition(j->x, j->y);
-                j->y++;
-                 std::cout << "ASTEROID POS Y: " << j->y << std::endl;
-                if(j->y < 800 ) {
-                    window.draw(sAsteroid);
-                    j++;
-                }
-                else {
-                    asteroids.erase(j);
-                }  
-            }
 
-            // if( i->y == j->y  && i->x == j->x) {
-            //     std::cout << "Collision!! " << std::endl;
-            // }
+        for(unsigned i = 0;  i < bullets.size(); i++) {
+            for(unsigned j = 0; j < asteroids.size(); j++ ) {
+                if(sBullet.getGlobalBounds().intersects(sAsteroid.getGlobalBounds())) {
+                    std::cout << "collission bro" << std::endl;
+                    asteroids.erase(asteroids.begin()+ j);
+                    bullets.erase(bullets.begin() + i);
+                    break;
+                }
+            }
+        }
+            
+        for(unsigned i = 0;  i < bullets.size(); i++) {
+            sBullet.setPosition(bullets[i].x, bullets[i].y - bullets[i].dy);
+            std::cout << "BULLET POS Y: " << bullets[i].y << std::endl;
+            if(bullets[i].y < 0) {
+                bullets.erase(bullets.begin()+i);
+                break;
+            } 
+            else { 
+                bullets[i].y -= bullets[i].dy; 
+            }
+            window.draw(sBullet);
+        }
+
+        for(unsigned i = 0;  i < asteroids.size(); i++) {
+            sAsteroid.setPosition(asteroids[i].x, asteroids[i].y);
+            
+            std::cout << "BULLET POS Y: " << asteroids[i].y << std::endl;
+            if(asteroids[i].y > 800) {
+                asteroids.erase(asteroids.begin()+i);
+                break;
+            } 
+            else { 
+                asteroids[i].y += asteroids[i].dy; 
+            }
+            window.draw(sAsteroid);
+        }
 
         window.display();
     }
