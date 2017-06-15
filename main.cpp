@@ -11,19 +11,24 @@ struct Bullet {
     int x, y, dy;
 };
 
+struct Asteroid {
+    int x,y,dy;
+};
+
 int main() {
     VideoMode vm(600,800);
     RenderWindow window(vm,"Game Boilerplate");
     window.setFramerateLimit(60);
 
-    Texture t1, t2, t3;
+    Texture t1, t2, t3, t4;
     t1.loadFromFile("assets/purple.png");
     t2.loadFromFile("assets/bullet.png");
     t3.loadFromFile("assets/player.png");
-
+    t4.loadFromFile("assets/asteroid_1.png");
+    
     t1.setRepeated(true);
 
-    Sprite sBackground(t1), sBullet(t2);
+    Sprite sBackground(t1), sBullet(t2), sAsteroid(t4);
     sBackground.setTextureRect(IntRect(0, 0, 600,800));
     Player player(t3, 300, 700, 5);
     FloatRect sBulletBounds = sBullet.getLocalBounds();
@@ -32,6 +37,9 @@ int main() {
     float player_bullet_timer = 0.0f, delay = 0.2f, time = 0.0f;
     Clock clock;
     std::vector<Bullet> bullets;
+    std::vector<Asteroid> asteroids;
+
+
 
     while (window.isOpen()) {
         time = clock.getElapsedTime().asSeconds();
@@ -59,26 +67,55 @@ int main() {
             player_bullet_timer = 0;
             std::cout << "BULLET CREATED Y POSITION: " << bullets[bullets.size() - 1].y << "\tBULLETS SIZE: " << bullets.size() << std::endl;
         }
+        if(Keyboard::isKeyPressed(Keyboard::E)) {
+            int x = 500, y = 100;
+            Asteroid asteroid;
+            asteroid.x = y; asteroid.y = y; asteroid.dy = 1;
+            asteroids.push_back(asteroid);
+        }
 
         player.sprite.setPosition(player.x, player.y);
         window.clear();
         window.draw(sBackground);
         window.draw(player.sprite);
-        
-            std::vector<Bullet>::iterator i = bullets.begin();
-            while(i != bullets.end()) {
-                sBullet.setPosition(i->x, i->y - i->dy);
-                i->y -= i->dy;
-                std::cout << "BULLET POS Y: " << i->y << std::endl;
-                if(i->y > 0 ) {
-                    window.draw(sBullet);
-                    i++;
+
+        for(unsigned i = 0;  i < bullets.size(); i++) {
+            for(unsigned j = 0; j < asteroids.size(); j++ ) {
+                if(sBullet.getGlobalBounds().intersects(sAsteroid.getGlobalBounds())) {
+                    std::cout << "collission bro" << std::endl;
+                    asteroids.erase(asteroids.begin()+ j);
+                    bullets.erase(bullets.begin() + i);
+                    break;
                 }
-                else {
-                    bullets.erase(i);
-                }
-                        
             }
+        }
+            
+        for(unsigned i = 0;  i < bullets.size(); i++) {
+            sBullet.setPosition(bullets[i].x, bullets[i].y - bullets[i].dy);
+            std::cout << "BULLET POS Y: " << bullets[i].y << std::endl;
+            if(bullets[i].y < 0) {
+                bullets.erase(bullets.begin()+i);
+                break;
+            } 
+            else { 
+                bullets[i].y -= bullets[i].dy; 
+            }
+            window.draw(sBullet);
+        }
+
+        for(unsigned i = 0;  i < asteroids.size(); i++) {
+            sAsteroid.setPosition(asteroids[i].x, asteroids[i].y);
+            
+            std::cout << "BULLET POS Y: " << asteroids[i].y << std::endl;
+            if(asteroids[i].y > 800) {
+                asteroids.erase(asteroids.begin()+i);
+                break;
+            } 
+            else { 
+                asteroids[i].y += asteroids[i].dy; 
+            }
+            window.draw(sAsteroid);
+        }
 
         window.display();
     }
