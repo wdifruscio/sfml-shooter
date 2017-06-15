@@ -78,9 +78,8 @@ int main() {
             asteroid_timer = 0;
         }
         
-
-        player.sprite.setPosition(player.x, player.y);
         window.clear();
+        player.sprite.setPosition(player.x, player.y);
         window.draw(sBackground);
         window.draw(player.sprite);
 
@@ -91,7 +90,6 @@ int main() {
                     std::cout << "HIT!" << " ASTEROIDS: "<< asteroids.size() << std::endl;
                     asteroids.erase(asteroids.begin() + j);
                     bullets.erase(bullets.begin() + i);
-                    break;
                 }
             }
         }
@@ -119,6 +117,10 @@ int main() {
             else { 
                 asteroids[i].y += asteroids[i].dy; 
             }
+                if(asteroids[i].x > player.x && asteroids[i].x < player.x + player.w
+                    && asteroids[i].y > player.y && asteroids[i].y < player.y + player.h) {
+                    std::cout << "PLAYER HIT!" << std::endl;
+                }
             window.draw(sAsteroid);
         }
 
