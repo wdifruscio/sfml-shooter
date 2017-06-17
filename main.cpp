@@ -8,19 +8,19 @@
 using namespace sf;
 
 struct Bullet {
-    int x, y, dy;
+    int x, y, dx;
 };
 
 struct Asteroid {
-    int x,y,dy;
+    int x,y,dx;
 };
 
 int main() {
 
     int gWindow_w = 1440;
-    int gWindow_y = 900;
+    int gWindow_h = 900;
 
-    VideoMode vm(gWindow_w, gWindow_y);
+    VideoMode vm(gWindow_w, gWindow_h);
     RenderWindow window(vm,"Space Shooter");
     window.setFramerateLimit(60);
 
@@ -34,8 +34,8 @@ int main() {
 
 
     Sprite sBackground(t1), sBullet(t2), sAsteroid(t4);
-    sBackground.setTextureRect(IntRect(0, 0, gWindow_w,gWindow_y));
-    Player player(t3, 0, gWindow_y / 2, 5);
+    sBackground.setTextureRect(IntRect(0, 0, gWindow_w,gWindow_h));
+    Player player(t3, 0, gWindow_h / 2, 5);
     FloatRect sBulletBounds = sBullet.getLocalBounds();
     FloatRect sAsteroidBounds = sAsteroid.getLocalBounds();
 
@@ -64,9 +64,9 @@ int main() {
         player.handleSprite();
 
         if(Keyboard::isKeyPressed(Keyboard::Space) && delay < player_bullet_timer) {
-            int x = player.x + player.w / 2.0f - sBulletBounds.width / 2.0f, y = player.y;
+            int x = player.x + player.w / 2, y = (player.y + (player.h / 2)) + sBulletBounds.height / 2.0;
             Bullet bullet;
-            bullet.x = x; bullet.y = y, bullet.dy = player_bullet_speed;
+            bullet.x = x; bullet.y = y, bullet.dx = player_bullet_speed;
             std::cout << "PLAYER Y: " << player.y << "\t" << "BULLET Y: " << bullet.y << std::endl;
             bullets.push_back(bullet);
             player_bullet_timer = 0;
@@ -78,7 +78,7 @@ int main() {
             std::srand((int)std::time(0) * 600);
             int x = std::rand() % 600, y = 0;
             Asteroid asteroid;
-            asteroid.x = x; asteroid.y = y; asteroid.dy = 1;
+            asteroid.x = x; asteroid.y = y; asteroid.dx = 1;
             asteroids.push_back(asteroid);
             asteroid_timer = 0;
         }
@@ -100,14 +100,14 @@ int main() {
         }
             
         for(unsigned i = 0;  i < bullets.size(); i++) {
-            sBullet.setPosition(bullets[i].x, bullets[i].y - bullets[i].dy);
+            sBullet.setPosition(bullets[i].x, bullets[i].y - bullets[i].dx);
             // std::cout << "BULLET POS Y: " << bullets[i].y << std::endl;
-            if(bullets[i].y < 0) {
+            if(bullets[i].x > gWindow_w) {
                 bullets.erase(bullets.begin()+i);
                 break;
             } 
             else { 
-                bullets[i].y -= bullets[i].dy; 
+                bullets[i].x += bullets[i].dx; 
             }
             window.draw(sBullet);
         }
@@ -120,7 +120,7 @@ int main() {
                 break;
             } 
             else { 
-                asteroids[i].y += asteroids[i].dy; 
+                asteroids[i].y += asteroids[i].dx; 
             }
                 if(asteroids[i].x > player.x && asteroids[i].x < player.x + player.w
                     && asteroids[i].y > player.y && asteroids[i].y < player.y + player.h) {
