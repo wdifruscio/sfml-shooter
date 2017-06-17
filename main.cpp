@@ -16,21 +16,26 @@ struct Asteroid {
 };
 
 int main() {
-    VideoMode vm(600,800);
-    RenderWindow window(vm,"Game Boilerplate");
+
+    int gWindow_w = 1440;
+    int gWindow_y = 900;
+
+    VideoMode vm(gWindow_w, gWindow_y);
+    RenderWindow window(vm,"Space Shooter");
     window.setFramerateLimit(60);
 
     Texture t1, t2, t3, t4;
-    t1.loadFromFile("assets/purple.png");
+    t1.loadFromFile("assets/background.jpg");
     t2.loadFromFile("assets/bullet.png");
     t3.loadFromFile("assets/player.png");
     t4.loadFromFile("assets/asteroid_1.png");
     
     t1.setRepeated(true);
 
+
     Sprite sBackground(t1), sBullet(t2), sAsteroid(t4);
-    sBackground.setTextureRect(IntRect(0, 0, 600,800));
-    Player player(t3, 300, 700, 5);
+    sBackground.setTextureRect(IntRect(0, 0, gWindow_w,gWindow_y));
+    Player player(t3, 0, gWindow_y / 2, 5);
     FloatRect sBulletBounds = sBullet.getLocalBounds();
     FloatRect sAsteroidBounds = sAsteroid.getLocalBounds();
 
