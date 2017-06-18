@@ -38,18 +38,15 @@ int main() {
 
 
 
-    Sprite sBullet(t2), sAsteroid(t4), sBg1(bg1), sBg2(bg2), sBg3(bg3);
+    Sprite sBullet(t2), sAsteroid(t4), sBg1(bg1), sBg1_copy(bg1), sBg2(bg2), sBg2_copy(bg2), sBg3(bg3);
     Player player(t3, 0, gWindow_h / 2, 5);
     FloatRect sBulletBounds = sBullet.getLocalBounds();
     FloatRect sAsteroidBounds = sAsteroid.getLocalBounds();
 
-    sBg1.setTextureRect(IntRect(0, 0, gWindow_w * 2,gWindow_h));
-    sBg2.setTextureRect(IntRect(0, 0, gWindow_w * 3,gWindow_h));
-
     int player_bullet_speed = 10;
     float player_bullet_timer = 0.0f, delay = 0.2f, time = 0.0f, asteroid_timer = 0.0f, asteroid_delay = 1.0f;
     int sBg1_x = 0, sBg2_x = 0, sBg3_x = 0;
-    float sBg1_dx = 1.2f, sBg2_dx = 1.4f, sBg3_dx = 1.6f;
+    float sBg1_dx = 0.85f, sBg2_dx = 0.99f, sBg3_dx = 1.6f;
     Clock clock;
     std::vector<Bullet> bullets;
     std::vector<Asteroid> asteroids;
@@ -94,21 +91,22 @@ int main() {
         
         window.clear();
 
-        sBg1_x -= sBg1_dx * 2;
-        sBg2_x -= sBg2_dx * 3;
-        sBg3_x -= sBg3_dx * 4;
+        sBg1_x -= sBg1_dx * 2.5;
+        sBg2_x -= sBg2_dx * 2.6;
         
         if(sBg1_x < -sBg1.getLocalBounds().width) sBg1_x = 0;
-        if(sBg2_x < -sBg2.getLocalBounds().width) sBg2_x = sBg2.getLocalBounds().width;
-        if(sBg3_x < -sBg3.getLocalBounds().width) sBg3_x = sBg3.getLocalBounds().width;
+        if(sBg2_x < -sBg2.getLocalBounds().width) sBg2_x = 0;
 
         sBg1.setPosition(sBg1_x, 0);
+        sBg1_copy.setPosition(sBg1_x + sBg1.getLocalBounds().width, 0);
+        sBg2_copy.setPosition(sBg2_x + sBg2.getLocalBounds().width, 0);
         sBg2.setPosition(sBg2_x, 0);
-        sBg3.setPosition(sBg3_x, 0);
 
         window.draw(sBg1);
+        window.draw(sBg1_copy);
         window.draw(sBg2);
-        // window.draw(sBg3);
+        window.draw(sBg2_copy);
+        window.draw(sBg3);
 
         player.sprite.setPosition(player.x, player.y);
         window.draw(player.sprite);
