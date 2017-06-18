@@ -14,8 +14,8 @@ Player::~Player(){};
 
 void Player::handleSprite()
 {
-    if(x > 525) x -= speed;
+    if(x > 1440) x -= speed;
     if(x < -20) x += speed;
     if(y  <  0) y += speed;
-    if(y > 725) y -= speed;
+    if(y > 900) y -= speed;
 }
