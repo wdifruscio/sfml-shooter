@@ -28,6 +28,14 @@
         "type_traits": "cpp",
         "typeinfo": "cpp",
         "utility": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "__split_buffer": "cpp",
+        "string": "cpp",
+        "vector": "cpp",
+        "__config": "cpp",
+        "cstddef": "cpp",
+        "cstdarg": "cpp",
+        "cstring": "cpp",
+        "memory": "cpp"
     }
 }

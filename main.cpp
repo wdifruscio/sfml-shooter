@@ -18,7 +18,6 @@ struct Asteroid {
 int main() {
 
     int gWindow_w = 1440; int gWindow_h = 900;
-
     VideoMode vm(gWindow_w, gWindow_h);
     RenderWindow window(vm,"Space Shooter");
     window.setFramerateLimit(60);
@@ -35,9 +34,6 @@ int main() {
     bg2.setRepeated(true);
     bg3.setRepeated(true);
     
-
-
-
     Sprite sBullet(t2), sAsteroid(t4), sBg1(bg1), sBg1_copy(bg1), sBg2(bg2), sBg2_copy(bg2), sBg3(bg3);
     Player player(t3, 0, gWindow_h / 2, 5);
     FloatRect sBulletBounds = sBullet.getLocalBounds();
@@ -48,6 +44,7 @@ int main() {
     int sBg1_x = 0, sBg2_x = 0, sBg3_x = 0;
     float sBg1_dx = 0.85f, sBg2_dx = 0.99f, sBg3_dx = 1.6f;
     Clock clock;
+    std::srand ((unsigned)std::time(NULL));
     std::vector<Bullet> bullets;
     std::vector<Asteroid> asteroids;
 
@@ -78,10 +75,8 @@ int main() {
             player_bullet_timer = 0;
             std::cout << "BULLET CREATED Y POSITION: " << bullets[bullets.size() - 1].y << "\tBULLETS SIZE: " << bullets.size() << std::endl;
         }
-
-        std::srand((int)std::time(0) * 10);
         if(std::rand() % 10 + 1 > 3 && asteroid_delay < asteroid_timer) {
-            std::srand((int)std::time(0) * gWindow_w);
+            // std::srand((int)std::time(0) * gWindow_w);
             int x = std::rand() % gWindow_w, y = 0;
             Asteroid asteroid;
             asteroid.x = x; asteroid.y = y; asteroid.dx = 1;
