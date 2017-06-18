@@ -36,6 +36,8 @@
         "cstddef": "cpp",
         "cstdarg": "cpp",
         "cstring": "cpp",
-        "memory": "cpp"
+        "memory": "cpp",
+        "bitset": "cpp",
+        "iterator": "cpp"
     }
 }
