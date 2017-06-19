@@ -4,6 +4,7 @@
 #include <vector>
 #include <time.h>
 #include "Player.hpp"
+#include "ParticleSystem.cpp"
 
 using namespace sf;
 
@@ -16,7 +17,7 @@ struct Asteroid {
 };
 
 int main() {
-
+    ParticleSystem particles(10000);
     int gWindow_w = 1440; int gWindow_h = 900;
     VideoMode vm(gWindow_w, gWindow_h);
     RenderWindow window(vm,"Space Shooter");
@@ -24,7 +25,7 @@ int main() {
 
     Texture t2, t3, t4, bg1, bg2;
     t2.loadFromFile("assets/bullet.png");
-    t3.loadFromFile("assets/player.png");
+    t3.loadFromFile("assets/ship.png");
     t4.loadFromFile("assets/asteroid_1.png");
     bg1.loadFromFile("assets/background-stars.png");
     bg2.loadFromFile("assets/background-nebula.png");
@@ -70,14 +71,15 @@ int main() {
             player_bullet_timer = 0;
             std::cout << "BULLET CREATED Y POSITION: " << bullets[bullets.size() - 1].y << "\tBULLETS SIZE: " << bullets.size() << std::endl;
         }
-        if(std::rand() % 10 + 1 > 3 && asteroid_delay < asteroid_timer) {
+        if(std::rand() % 10 + 1 > 1 && asteroid_delay < asteroid_timer) {
             int x = gWindow_w, y = std::rand() % gWindow_h;
             Asteroid asteroid;
-            asteroid.x = x; asteroid.y = y; asteroid.dx = rand() % 8 - 4; asteroid.dy = rand() % 8 - 4; 
+            asteroid.x = x; asteroid.y = y; asteroid.dx = rand() % 10 - 4; asteroid.dy = rand() % 8 - 4; 
             asteroids.push_back(asteroid);
             asteroid_timer = 0;
         }
-        
+        sf::Time elapsed = clock.restart();
+        particles.update(elapsed);
         window.clear();
 
         
@@ -92,8 +94,13 @@ int main() {
         window.draw(sBg2_copy);
 
         player.sprite.setPosition(player.x, player.y);
+        sf::Vector2f thrusterPos((float)player.x + 10, (float)player.y + ((float)player.h / 2));
+        particles.setEmitter(thrusterPos);                
+        window.draw(particles);        
         window.draw(player.sprite);
 
+        // update it
+        
         for(unsigned i = 0;  i < bullets.size(); i++) {
             for(unsigned j = 0; j < asteroids.size(); j++ ) {
                 if(bullets[i].x > asteroids[j].x && bullets[i].x < asteroids[j].x + sAsteroidBounds.width 
@@ -121,13 +128,13 @@ int main() {
         for(unsigned i = 0;  i < asteroids.size(); i++) {
             sAsteroid.setPosition(asteroids[i].x, asteroids[i].y);
             // std::cout << "BULLET POS Y: " << asteroids[i].y << std::endl;
-            if(asteroids[i].y > 800) {
+            if(asteroids[i].y > gWindow_h || asteroids[i].y < 0 || asteroids[i].x < 0) {
                 asteroids.erase(asteroids.begin()+i);
                 break;
             } 
             else { 
-                asteroids[i].y += asteroids[i].dy;
-                asteroids[i].x += asteroids[i].dx; 
+                asteroids[i].y -= 1 * asteroids[i].dy;
+                asteroids[i].x += 1 * asteroids[i].dx; 
             }
                 if(asteroids[i].x > player.x && asteroids[i].x < player.x + player.w
                     && asteroids[i].y > player.y && asteroids[i].y < player.y + player.h) {
