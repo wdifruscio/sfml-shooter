@@ -1,7 +1,6 @@
 
 OBJS = main.cpp Player.cpp Quad.cpp QuadTreeObject.cpp QuadTreeNode.cpp QuadTree.cpp
 CC = g++
-<<<<<<< HEAD
 COMPILER_FLAGS = -W -std=c++11
 LINKER_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 OBJ_NAME = sfml-game
