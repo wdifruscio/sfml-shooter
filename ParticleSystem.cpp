@@ -64,7 +64,7 @@ private:
         // give a random velocity and lifetime to the particle
         float angle = (std::rand() % 1000) + 500;
         float speed = (std::rand() % 2500) + 100.f;
-        m_particles[index].velocity = sf::Vector2f(std::cos(angle) - speed * 2, std::sin(angle) * (speed / 4));
+        m_particles[index].velocity = sf::Vector2f(std::cos(angle) - speed * 2, std::sin(angle) * (speed / 3));
         m_particles[index].lifetime = sf::milliseconds((std::rand() % 20));
         // reset the position of the corresponding vertex
         m_vertices[index].position = m_emitter;
