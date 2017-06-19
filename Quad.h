@@ -5,6 +5,8 @@
 #include <array>
 #include <vector>
 
+class QuadObject;
+
 enum types{
     PLAYER,
     BULLET,
@@ -18,28 +20,44 @@ typedef struct Rectangle{
     right(r), left(l), top(t), bottom(b){}
 } Rect;
 
-typedef struct obect{
+typedef struct Position{
     int x, y, type, rad;
-} object;
+    Position(int x, int y, int t, int r)
+    : x(x), y(y), type(t), rad(r) {}
+} Position;
 
 class Quad{
 private:
     int MAX_OBJECTS = 10;
     int MAX_LEVELS = 5;
     int level;
-    std::vector<object> objects;
+    std::vector<QuadObject*> objects;
     Rect bounds;
     Quad *nodes[4];
-    void SetTreeNode(Quad *_pqtnNode);
-    int get_index(const object &obj);
+    int get_index(QuadObject *qo);
+    void CheckQuads(QuadObject *qo, Quad *q);
+    Quad *parent;
 public:
-    Quad(int pLevel, const Rect &rect);
+    Quad(int pLevel, const Rect &rect, Quad *parent);
     ~Quad();
     void clear();
     void split();
-    void insert(const object &obj);
-    void update();
-    std::vector<object> retrieve(std::vector<object> retObj, const object &obj);
+    void insert(QuadObject *qo);
+    void Update();
+    std::vector<QuadObject*> retrieve(std::vector<QuadObject*> retObj, QuadObject *qo);
+};
+
+class QuadObject{
+private:
+protected:
+    Quad *mNode;
+public:
+    QuadObject();
+    QuadObject(const Position &pos);
+    QuadObject(const Position &pos, Quad *initNode);
+    void SetQuadTreeNode(Quad *pNode);
+    Quad* GetQuadTreeNode();
+    Position pos;
 };
 
 
