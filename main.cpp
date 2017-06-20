@@ -42,15 +42,15 @@ int main() {
     int frames = 20;
     int animSpeed = 0.4;
 
-    Animation sExplosion(explosion ,0,0,50,50,20,0.2);
 
     int player_bullet_speed = 10;
-    float player_bullet_timer = 0.0f, delay = 0.2f, time = 0.0f, asteroid_timer = 0.0f, asteroid_delay = 1.0f, explosion_delay = 0.0f;
+    float player_bullet_timer = 0.0f, delay = 0.2f, time = 0.0f, asteroid_timer = 0.0f, asteroid_delay = 0.2f, explosion_delay = 0.0f;
     float sBg2_dx = 0.1f;
     Clock clock;
     std::srand ((unsigned)std::time(NULL));
     std::vector<Bullet> bullets;
     std::vector<Asteroid> asteroids;
+    std::vector<Animation> explosions;
 
     while (window.isOpen()) {
         time = clock.getElapsedTime().asSeconds();
@@ -115,12 +115,22 @@ int main() {
                 if(bullets[i].x > asteroids[j].x && bullets[i].x < asteroids[j].x + sAsteroidBounds.width 
                     && bullets[i].y > asteroids[j].y && bullets[i].y < asteroids[j].y + sAsteroidBounds.height) {
                     std::cout << "HIT!" << " ASTEROIDS: "<< asteroids.size() << std::endl;
+                    Animation sExplosion(explosion ,0,0,50,50,20,0.5,1);    
                     sExplosion.sprite.setPosition(bullets[i].x,bullets[i].y);
-                    sExplosion.update();
+                    explosions.push_back(sExplosion);
                     asteroids.erase(asteroids.begin() + j);
                     bullets.erase(bullets.begin() + i);
-                    window.draw(sExplosion.sprite);
                 }
+            }
+        }
+
+        for(unsigned i = 0; i < explosions.size(); i++) {
+            if(!explosions[i].isEnd()) {
+                explosions[i].update();
+                explosions[i].draw(window);
+            }
+            else {
+                explosions.erase(explosions.begin() + i);
             }
         }
             

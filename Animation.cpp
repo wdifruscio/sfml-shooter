@@ -1,9 +1,10 @@
 #include "Animation.hpp"
 
-Animation::Animation(sf::Texture &t, int x, int y, int w, int h, int count, float Speed) 
+Animation::Animation(sf::Texture &t, int x, int y, int w, int h, int count, float Speed, float duration) 
 {
     Frame = 0;
     speed = Speed;
+    duration = duration;
 
     for(int i = 0; i < count; i++) {
         frames.push_back( sf::IntRect(x + i*w, y, w, h) );
@@ -14,10 +15,21 @@ Animation::Animation(sf::Texture &t, int x, int y, int w, int h, int count, floa
     }
 };
 
+
 void Animation::update()
 {
-    Frame += speed;
-    int n = frames.size();
-    if(Frame >= n) Frame -= n;
-    if (n>0) sprite.setTextureRect (frames[int(Frame)]);
+    int n = frames.size();    
+    for(float i = 0; i < duration; i+= speed / n) {
+        Frame += speed;
+        if (n>0) sprite.setTextureRect (frames[int(Frame)]);                    
+    }
 };
+
+void Animation::draw(sf::RenderWindow &app)
+{
+    app.draw(sprite);
+}
+
+bool Animation::isEnd() {
+    return Frame > frames.size();
+}
