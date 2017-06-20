@@ -5,7 +5,7 @@ public:
     ParticleSystem(unsigned int count) :
     m_particles(count),
     m_vertices(sf::Points, count),
-    m_lifetime(sf::seconds(0.25)),
+    m_lifetime(sf::seconds(.05)),
     m_emitter(0, 0)
     {
     }
@@ -63,9 +63,9 @@ private:
     {
         // give a random velocity and lifetime to the particle
         float angle = (std::rand() % 1000) + 500;
-        float speed = (std::rand() % 2500) + 100.f;
+        float speed = (std::rand() % 1000) + 100.f;
         m_particles[index].velocity = sf::Vector2f(std::cos(angle) - speed * 2, std::sin(angle) * (speed / 3));
-        m_particles[index].lifetime = sf::milliseconds((std::rand() % 20));
+        m_particles[index].lifetime = sf::milliseconds((std::rand() % 30));
         // reset the position of the corresponding vertex
         m_vertices[index].position = m_emitter;
     }

@@ -18,7 +18,7 @@ struct Asteroid {
 };
 
 int main() {
-    ParticleSystem particles(20000);
+    ParticleSystem particles(1000);
     int gWindow_w = 1440; int gWindow_h = 900;
     VideoMode vm(gWindow_w, gWindow_h);
     RenderWindow window(vm,"Space Shooter");
@@ -115,7 +115,7 @@ int main() {
                 if(bullets[i].x > asteroids[j].x && bullets[i].x < asteroids[j].x + sAsteroidBounds.width 
                     && bullets[i].y > asteroids[j].y && bullets[i].y < asteroids[j].y + sAsteroidBounds.height) {
                     std::cout << "HIT!" << " ASTEROIDS: "<< asteroids.size() << std::endl;
-                    Animation sExplosion(explosion ,0,0,50,50,20,0.5,1);    
+                    Animation sExplosion(explosion ,0,0,50,50,20,0.75,0.75);    
                     sExplosion.sprite.setPosition(bullets[i].x,bullets[i].y);
                     explosions.push_back(sExplosion);
                     asteroids.erase(asteroids.begin() + j);
