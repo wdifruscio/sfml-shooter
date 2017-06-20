@@ -43,7 +43,6 @@ public:
     void clear();
     void split();
     void insert(QuadObject *qo);
-    void Update();
     std::vector<QuadObject*> retrieve(std::vector<QuadObject*> retObj, QuadObject *qo);
 };
 

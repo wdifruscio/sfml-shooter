@@ -46,7 +46,7 @@ void Quad::insert(QuadObject *qo){
             split();
         size_t i = 0;
         while(i < objects.size()){
-            QuadObject o = objects.at(i);
+            QuadObject *o = objects.at(i);
             int index = get_index(o);
             if(index > 0){
                 nodes[index]->insert(o);
@@ -68,10 +68,6 @@ std::vector<QuadObject*> Quad::retrieve(std::vector<QuadObject*> return_objects,
     return_objects.insert(return_objects.end(), objects.begin(), objects.end()); // add all elements on objects to return_objects
 
     return return_objects;
-}
-
-void Quad::Update(){
-
 }
 
 // PRIVATE
