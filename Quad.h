@@ -27,6 +27,7 @@ typedef struct Position{
 } Position;
 
 class Quad{
+    friend class QuadObject;
 private:
     int MAX_OBJECTS = 10;
     int MAX_LEVELS = 5;
@@ -52,10 +53,9 @@ protected:
     Quad *mNode;
 public:
     QuadObject();
-    QuadObject(const Position &pos);
-    QuadObject(const Position &pos, Quad *initNode);
-    void SetQuadTreeNode(Quad *pNode);
-    Quad* GetQuadTreeNode();
+    QuadObject(const Position &pos, Quad *initNode = nullptr): mNode(initNode), pos(pos){};
+    void SetQuadTreeNode(Quad *pNode) { mNode = pNode; }
+    Quad* GetQuadTreeNode() { return mNode; }
     Position pos;
 };
 
