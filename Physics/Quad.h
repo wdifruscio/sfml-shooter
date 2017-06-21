@@ -39,7 +39,7 @@ private:
     void CheckQuads(QuadObject *qo, Quad *q);
     Quad *parent;
 public:
-    Quad(int pLevel, const Rect &rect, Quad *parent);
+    Quad(int pLevel, const Rect &rect, Quad *parent = nullptr);
     ~Quad();
     void clear();
     void split();
