@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <time.h>
-#include "Player.hpp"
+#include "Entities/Player.hpp"
 #include "ParticleSystem.cpp"
 #include "Animation.hpp"
 
@@ -32,7 +32,7 @@ int main() {
     bg2.loadFromFile("assets/background-nebula.png");
     explosion.loadFromFile("assets/type_A.png");
     // bg3.loadFromFile("assets/starlayer3.png");
-    
+
     Sprite sBullet(t2), sAsteroid(t4), sBg1(bg1), sBg2(bg2), sBg2_copy(bg2);
     Player player(t3, 0, gWindow_h / 2, 5);
     FloatRect sBulletBounds = sBullet.getLocalBounds();
@@ -82,7 +82,7 @@ int main() {
         if(std::rand() % 10 + 1 > 1 && asteroid_delay < asteroid_timer) {
             int x = gWindow_w, y = std::rand() % gWindow_h;
             Asteroid asteroid;
-            asteroid.x = x; asteroid.y = y; asteroid.dx = rand() % 10 - 4; asteroid.dy = rand() % 8 - 4; 
+            asteroid.x = x; asteroid.y = y; asteroid.dx = rand() % 10 - 4; asteroid.dy = rand() % 8 - 4;
             asteroids.push_back(asteroid);
             asteroid_timer = 0;
         }
@@ -91,8 +91,8 @@ int main() {
 
         window.clear();
 
-        
-        
+
+
         if(sBg2.getPosition().x < -sBg2.getLocalBounds().width) sBg2.setPosition(0, 0);
         if(sBg2_copy.getPosition().x < 0) sBg2_copy.setPosition(sBg2.getLocalBounds().width, 0);
 
@@ -105,17 +105,17 @@ int main() {
 
         player.sprite.setPosition(player.x, player.y);
         sf::Vector2f thrusterPos((float)player.x + 10, (float)player.y + ((float)player.h / 2));
-        particles.setEmitter(thrusterPos);                
-        window.draw(particles);        
+        particles.setEmitter(thrusterPos);
+        window.draw(particles);
         window.draw(player.sprite);
         // update it
-        
+
         for(unsigned i = 0;  i < bullets.size(); i++) {
             for(unsigned j = 0; j < asteroids.size(); j++ ) {
-                if(bullets[i].x > asteroids[j].x && bullets[i].x < asteroids[j].x + sAsteroidBounds.width 
+                if(bullets[i].x > asteroids[j].x && bullets[i].x < asteroids[j].x + sAsteroidBounds.width
                     && bullets[i].y > asteroids[j].y && bullets[i].y < asteroids[j].y + sAsteroidBounds.height) {
                     std::cout << "HIT!" << " ASTEROIDS: "<< asteroids.size() << std::endl;
-                    Animation sExplosion(explosion ,0,0,50,50,20,0.75,0.75);    
+                    Animation sExplosion(explosion ,0,0,50,50,20,0.75,0.75);
                     sExplosion.sprite.setPosition(bullets[i].x,bullets[i].y);
                     explosions.push_back(sExplosion);
                     asteroids.erase(asteroids.begin() + j);
@@ -133,16 +133,16 @@ int main() {
                 explosions.erase(explosions.begin() + i);
             }
         }
-            
+
         for(unsigned i = 0;  i < bullets.size(); i++) {
             sBullet.setPosition(bullets[i].x, bullets[i].y - bullets[i].dx);
             // std::cout << "BULLET POS Y: " << bullets[i].y << std::endl;
             if(bullets[i].x > gWindow_w) {
                 bullets.erase(bullets.begin()+i);
                 break;
-            } 
-            else { 
-                bullets[i].x += bullets[i].dx; 
+            }
+            else {
+                bullets[i].x += bullets[i].dx;
             }
             window.draw(sBullet);
         }
@@ -153,10 +153,10 @@ int main() {
             if(asteroids[i].y > gWindow_h || asteroids[i].y < 0 || asteroids[i].x < 0) {
                 asteroids.erase(asteroids.begin()+i);
                 break;
-            } 
-            else { 
+            }
+            else {
                 asteroids[i].y -= 1 * asteroids[i].dy;
-                asteroids[i].x += 1 * asteroids[i].dx; 
+                asteroids[i].x += 1 * asteroids[i].dx;
             }
                 if(asteroids[i].x > player.x && asteroids[i].x < player.x + player.w
                     && asteroids[i].y > player.y && asteroids[i].y < player.y + player.h) {

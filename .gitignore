@@ -1,4 +1,5 @@
 sfml-game
 videosize.txt
-main.o
 npm-debug.log
+*.o
+*.h.gch

@@ -3,8 +3,8 @@
 
 #include "Quad.h"
 
-Quad::Quad(int pLevel, const Rect &rect) :
-level(pLevel), bounds(rect)
+Quad::Quad(int pLevel, const Rect &rect, Quad *parent = nullptr) :
+level(pLevel), bounds(rect), parent(parent)
 {
 }
 
@@ -26,27 +26,27 @@ void Quad::split(){
     int center_x = (bounds.right - bounds.left) / 2;
     int center_y = (bounds.top - bounds.bottom) / 2;
                                                                                                                             //               ___________
-    nodes[0] = new Quad(level + 1, Rect(bounds.right, bounds.left + center_x, bounds.top, bounds.bottom - center_y)); // top-right    |  Q1 |  Q0 |
-    nodes[1] = new Quad(level + 1, Rect(bounds.right - center_x, bounds.left, bounds.top, bounds.bottom - center_y)); // top-left     |_____|_____|
-    nodes[2] = new Quad(level + 1, Rect(bounds.right - center_x, bounds.left, bounds.top + center_y, bounds.bottom)); // bottom-left  |  Q2 |  Q3 |
-    nodes[3] = new Quad(level + 1, Rect(bounds.right, bounds.left + center_x, bounds.top + center_y, bounds.bottom)); // bottom-right |_____|_____|
+    nodes[0] = new Quad(level + 1, Rect(bounds.right, bounds.left + center_x, bounds.top, bounds.bottom - center_y), this); // top-right    |  Q1 |  Q0 |
+    nodes[1] = new Quad(level + 1, Rect(bounds.right - center_x, bounds.left, bounds.top, bounds.bottom - center_y), this); // top-left     |_____|_____|
+    nodes[2] = new Quad(level + 1, Rect(bounds.right - center_x, bounds.left, bounds.top + center_y, bounds.bottom), this); // bottom-left  |  Q2 |  Q3 |
+    nodes[3] = new Quad(level + 1, Rect(bounds.right, bounds.left + center_x, bounds.top + center_y, bounds.bottom), this); // bottom-right |_____|_____|
 }
 
-void Quad::insert(const object &obj){
+void Quad::insert(QuadObject *qo){
     if(nodes[0] != NULL){
-        int index = get_index(obj);
+        int index = get_index(qo);
         if(index > 0){
-            nodes[index]->insert(obj);
+            nodes[index]->insert(qo);
             return;
         }
     }
-    objects.push_back(obj);
+    objects.push_back(qo);
     if((int)objects.size() > MAX_OBJECTS && level < MAX_LEVELS){
         if(nodes[0] == NULL)
             split();
         size_t i = 0;
         while(i < objects.size()){
-            object o = objects.at(i);
+            QuadObject *o = objects.at(i);
             int index = get_index(o);
             if(index > 0){
                 nodes[index]->insert(o);
@@ -58,11 +58,11 @@ void Quad::insert(const object &obj){
     }
 }
 
-std::vector<object> Quad::retrieve(std::vector<object> return_objects, const object &obj){
-    int index = get_index(obj);
+std::vector<QuadObject*> Quad::retrieve(std::vector<QuadObject*> return_objects, QuadObject *qo){
+    int index = get_index(qo);
     // Checks to see if the object can fit in a smaller scope and if the current node is a leaf node
     if(index > 0 && nodes[0] != NULL)
-        nodes[index]->retrieve(return_objects, obj);
+        nodes[index]->retrieve(return_objects, qo);
 
     return_objects.reserve(return_objects.size() + objects.size()); //preallocate memory for concat
     return_objects.insert(return_objects.end(), objects.begin(), objects.end()); // add all elements on objects to return_objects
@@ -70,29 +70,25 @@ std::vector<object> Quad::retrieve(std::vector<object> return_objects, const obj
     return return_objects;
 }
 
-void SetTreeNode(Quad *_pqtnNode){
-    //_pqtnNode->objects
-}
-
 // PRIVATE
-int Quad::get_index(const object &obj){
+int Quad::get_index(QuadObject *qo){
     int index = -1;
     int center_x = (bounds.right - bounds.left) / 2;
     int center_y = (bounds.top - bounds.bottom) / 2;
 
     // Can fit in top Quadrants
-    bool top_quad = ((obj.y + obj.rad) < center_y) && ((obj.y - obj.rad) > bounds.top);
+    bool top_quad = (((qo->pos.y + qo->pos.rad) < center_y) && (qo->pos.y - qo->pos.rad) > bounds.top);
     // Can fit in bottom Quadrants
-    bool bottom_quad = ((obj.y - obj.rad) > center_y) && ((obj.y + obj.rad) < bounds.bottom);
+    bool bottom_quad = ((qo->pos.y - qo->pos.rad) > center_y) && ((qo->pos.y + qo->pos.rad) < bounds.bottom);
     // Can fit in left Quadrants
-    if(((obj.x + obj.rad) < center_x) && ((obj.x - obj.rad) > bounds.left)){
+    if(((qo->pos.x + qo->pos.rad) < center_x) && ((qo->pos.x - qo->pos.rad) > bounds.left)){
         if(top_quad)
             index = 1;
         else if(bottom_quad)
             index = 2;
     }
     // Can fit in right Quadrants
-    if(((obj.x - obj.rad) > center_x) && ((obj.x + obj.rad) > bounds.right)){
+    if(((qo->pos.x - qo->pos.rad) > center_x) && ((qo->pos.x + qo->pos.rad) > bounds.right)){
         if(top_quad)
             index = 0;
         else if(bottom_quad)

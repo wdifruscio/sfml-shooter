@@ -1,8 +1,8 @@
 
 OBJS = main.cpp Player.cpp Animation.cpp Quad.cpp
 CC = g++
-COMPILER_FLAGS = -W
-LINKER_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system -std=c++11
+COMPILER_FLAGS = -W -std=c++11
+LINKER_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 OBJ_NAME = sfml-game
 
 all : $(OBJS)
