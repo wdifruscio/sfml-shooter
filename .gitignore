@@ -3,3 +3,4 @@ videosize.txt
 npm-debug.log
 *.o
 *.h.gch
+*.hpp.gch
