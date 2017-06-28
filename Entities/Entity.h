@@ -12,7 +12,7 @@ namespace Entities{
         Debris
     };
 
-    class Entity : sf::Drawable{
+    class Entity /*: sf::Drawable */{
     private:
     protected:
         sf::Vector2f    position;
@@ -43,8 +43,9 @@ namespace Entities{
         std::string  getTexture()      { return texture; }
         sf::Shape*   getShape()        { return shape; }
 
-        //// PURE VIRTUAL ////
-        virtual void draw(void) = 0;
+        // //// PURE VIRTUAL ////
+        // virtual void draw(void) = 0;
+        void draw(sf::RenderWindow &window) { window.draw(sprite) }
     };
 
 }

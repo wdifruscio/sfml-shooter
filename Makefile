@@ -1,5 +1,5 @@
 
-OBJS = main.cpp Player.cpp Animation.cpp Quad.cpp
+OBJS = main.cpp Entities/Player.cpp Animation.cpp
 CC = g++
 COMPILER_FLAGS = -W -std=c++11
 LINKER_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system

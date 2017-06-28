@@ -2,10 +2,11 @@
 #define PLAYER
 
 #include <SFML/Graphics.hpp>
+#include "Entity.h"
 #include <string>
 
 namespace Entities{
-    class Player
+    class Player : Entity
     {
         public:
         Player(sf::Texture &texture, int start_x, int start_y, int init_speed);

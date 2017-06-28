@@ -1,3 +1,5 @@
+#include <cmath>
+
 class ParticleSystem : public sf::Drawable, public sf::Transformable
 {
 public:

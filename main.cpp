@@ -34,7 +34,7 @@ int main() {
     // bg3.loadFromFile("assets/starlayer3.png");
 
     Sprite sBullet(t2), sAsteroid(t4), sBg1(bg1), sBg2(bg2), sBg2_copy(bg2);
-    Player player(t3, 0, gWindow_h / 2, 5);
+    Entities::Player::Player *player = new Entities::Player::Player(t3, 0, gWindow_h / 2, 5);
     FloatRect sBulletBounds = sBullet.getLocalBounds();
     FloatRect sAsteroidBounds = sAsteroid.getLocalBounds();
 
@@ -63,18 +63,18 @@ int main() {
             if (event.type == Event::Closed)
                 window.close();
 
-        if(Keyboard::isKeyPressed(Keyboard::Right)) player.x += player.speed;
-        if(Keyboard::isKeyPressed(Keyboard::Left))  player.x -= player.speed;
-        if(Keyboard::isKeyPressed(Keyboard::Up))    player.y -= player.speed;
-        if(Keyboard::isKeyPressed(Keyboard::Down))  player.y += player.speed;
+        if(Keyboard::isKeyPressed(Keyboard::Right)) player->x += player->speed;
+        if(Keyboard::isKeyPressed(Keyboard::Left))  player->x -= player->speed;
+        if(Keyboard::isKeyPressed(Keyboard::Up))    player->y -= player->speed;
+        if(Keyboard::isKeyPressed(Keyboard::Down))  player->y += player->speed;
         if(Keyboard::isKeyPressed(Keyboard::Escape)) window.close();
-        player.handleSprite();
+        player->handleSprite();
 
         if(Keyboard::isKeyPressed(Keyboard::Space) && delay < player_bullet_timer) {
-            int x = player.x + player.w / 2, y = (player.y + (player.h / 2)) + sBulletBounds.height / 2.0;
+            int x = player->x + player->w / 2, y = (player->y + (player->h / 2)) + sBulletBounds.height / 2.0;
             Bullet bullet;
             bullet.x = x; bullet.y = y, bullet.dx = player_bullet_speed;
-            std::cout << "PLAYER Y: " << player.y << "\t" << "BULLET Y: " << bullet.y << std::endl;
+            std::cout << "PLAYER Y: " << player->y << "\t" << "BULLET Y: " << bullet.y << std::endl;
             bullets.push_back(bullet);
             player_bullet_timer = 0;
             std::cout << "BULLET CREATED Y POSITION: " << bullets[bullets.size() - 1].y << "\tBULLETS SIZE: " << bullets.size() << std::endl;
@@ -91,8 +91,6 @@ int main() {
 
         window.clear();
 
-
-
         if(sBg2.getPosition().x < -sBg2.getLocalBounds().width) sBg2.setPosition(0, 0);
         if(sBg2_copy.getPosition().x < 0) sBg2_copy.setPosition(sBg2.getLocalBounds().width, 0);
 
@@ -103,11 +101,11 @@ int main() {
         window.draw(sBg2);
         window.draw(sBg2_copy);
 
-        player.sprite.setPosition(player.x, player.y);
-        sf::Vector2f thrusterPos((float)player.x + 10, (float)player.y + ((float)player.h / 2));
+        player->sprite.setPosition(player->x, player->y);
+        sf::Vector2f thrusterPos((float)player->x + 10, (float)player->y + ((float)player->h / 2));
         particles.setEmitter(thrusterPos);
         window.draw(particles);
-        window.draw(player.sprite);
+        window.draw(player->sprite);
         // update it
 
         for(unsigned i = 0;  i < bullets.size(); i++) {
@@ -158,8 +156,8 @@ int main() {
                 asteroids[i].y -= 1 * asteroids[i].dy;
                 asteroids[i].x += 1 * asteroids[i].dx;
             }
-                if(asteroids[i].x > player.x && asteroids[i].x < player.x + player.w
-                    && asteroids[i].y > player.y && asteroids[i].y < player.y + player.h) {
+                if(asteroids[i].x > player->x && asteroids[i].x < player->x + player->w
+                    && asteroids[i].y > player->y && asteroids[i].y < player->y + player->h) {
                     std::cout << "PLAYER HIT!" << std::endl;
                 }
             window.draw(sAsteroid);
