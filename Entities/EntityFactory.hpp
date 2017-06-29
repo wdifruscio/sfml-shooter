@@ -2,7 +2,7 @@
 #define ENTITYFACTORY_H
 
 #include <SFML/Graphics.hpp>
-#include "Entity.h"
+#include "Entity.hpp"
 
 namespace Entities {
 
@@ -10,10 +10,7 @@ namespace Entities {
         private:
         protected:
         public:
-        Entity entity;
-        Entity GeneratePlayer {
-            return entity;
-        };
+        class Player::Player* GeneratePlayer(sf::Texture &texture, int x, int y, int s) { return new class Player::Player(texture,x,y,s); };
     };
 
 }

@@ -6,6 +6,7 @@
 #include <time.h>
 #include "Entities/Player.hpp"
 #include "Entities/Entity.hpp"
+#include "Entities/EntityFactory.hpp"
 #include "ParticleSystem.cpp"
 #include "Animation.hpp"
 
@@ -53,7 +54,9 @@ int main() {
     std::vector<Animation> explosions;
     std::list<Entities::Entity*> entities;
 
-    class Entities::Player::Player *player = new class Entities::Player::Player(t3, 0, gWindow_h / 2, 5);
+    Entities::EntityFactory entityFactory;
+
+    class Entities::Player::Player *player = entityFactory.GeneratePlayer(t3, 0, gWindow_h / 2, 5);
     entities.push_back(player);
 
     while (window.isOpen()) {
