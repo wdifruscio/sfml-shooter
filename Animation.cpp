@@ -8,7 +8,6 @@ Animation::Animation(sf::Texture &t, int x, int y, int w, int h, int count, floa
 
     for(int i = 0; i < count; i++) {
         frames.push_back( sf::IntRect(x + i*w, y, w, h) );
-        
         sprite.setTexture(t);
         sprite.setOrigin(w/2, h/2);
         sprite.setTextureRect(frames[0]);

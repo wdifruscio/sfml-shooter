@@ -2,8 +2,10 @@
 #include <stdio.h>
 #include <iostream>
 #include <vector>
+#include <list>
 #include <time.h>
 #include "Entities/Player.hpp"
+#include "Entities/Entity.hpp"
 #include "ParticleSystem.cpp"
 #include "Animation.hpp"
 
@@ -34,14 +36,12 @@ int main() {
     // bg3.loadFromFile("assets/starlayer3.png");
 
     Sprite sBullet(t2), sAsteroid(t4), sBg1(bg1), sBg2(bg2), sBg2_copy(bg2);
-    Entities::Player::Player *player = new Entities::Player::Player(t3, 0, gWindow_h / 2, 5);
     FloatRect sBulletBounds = sBullet.getLocalBounds();
     FloatRect sAsteroidBounds = sAsteroid.getLocalBounds();
 
     float Frame = 0;
     int frames = 20;
     int animSpeed = 0.4;
-
 
     int player_bullet_speed = 10;
     float player_bullet_timer = 0.0f, delay = 0.2f, time = 0.0f, asteroid_timer = 0.0f, asteroid_delay = 0.2f, explosion_delay = 0.0f;
@@ -51,6 +51,10 @@ int main() {
     std::vector<Bullet> bullets;
     std::vector<Asteroid> asteroids;
     std::vector<Animation> explosions;
+    std::list<Entities::Entity*> entities;
+
+    class Entities::Player::Player *player = new class Entities::Player::Player(t3, 0, gWindow_h / 2, 5);
+    entities.push_back(player);
 
     while (window.isOpen()) {
         time = clock.getElapsedTime().asSeconds();
@@ -97,15 +101,22 @@ int main() {
         sBg2.move(-sBg2_dx, 0);
         sBg2_copy.move(-sBg2_dx, 0);
 
+        for(auto a : entities) {
+            a->update();
+            a->draw(window);
+        }
+
+
         window.draw(sBg1);
         window.draw(sBg2);
         window.draw(sBg2_copy);
 
-        player->sprite.setPosition(player->x, player->y);
+        // player->sprite.setPosition(player->x, player->y);
         sf::Vector2f thrusterPos((float)player->x + 10, (float)player->y + ((float)player->h / 2));
         particles.setEmitter(thrusterPos);
         window.draw(particles);
-        window.draw(player->sprite);
+        
+        // window.draw(player->sprite);
         // update it
 
         for(unsigned i = 0;  i < bullets.size(); i++) {
