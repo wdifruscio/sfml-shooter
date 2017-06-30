@@ -10,7 +10,7 @@ namespace Entities {
         private:
         protected:
         public:
-        class Player::Player* GeneratePlayer(sf::Texture &texture, int x, int y, int s) { return new class Player::Player(texture,x,y,s); };
+        class Player::Player* GeneratePlayer() { return new class Player::Player(); };
     };
 
 }

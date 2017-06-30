@@ -9,12 +9,11 @@ namespace Entities{
     class Player : public Entity
     {
         public:
-        Player(sf::Texture &texture, int start_x, int start_y, int init_speed);
+        Player();
         ~Player();
-        void handleSprite();
+        void handleSprite(sf::Keyboard::Key);
+        bool canMove;
         int speed;
-        int x;
-        int y;
         int w;
         int h;
         virtual void update();

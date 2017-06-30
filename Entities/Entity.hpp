@@ -26,7 +26,7 @@ namespace Entities{
     public:
 
         //// SETTERS ////
-        // void         setPosition     (const sf::Vector2f &pos) { position.x = pos.x; position.x = pos.x; }
+        void         setPosition     (const sf::Vector2f &pos) { position.x = pos.x; position.y = pos.y; }
         void         setVelocity     (const sf::Vector2f &vel) { velocity.x = vel.x; velocity.y = vel.y; }
         void         setAngle        (float initAngle)         { this->angle = initAngle; }
         void         setAcceleration (float acc)               { this->acceleration = acc; }
@@ -36,7 +36,7 @@ namespace Entities{
         void         bindTexture()                             { sprite.setTexture(this->texture); }
 
         //// GETTERS ////
-        // sf::Vector2f getPosition()     { return position; }
+        sf::Vector2f getPosition()     { return position; }
         sf::Vector2f getVelocity()     { return velocity; }
         float        getAngle()        { return angle; }
         float        getAcceleration() { return acceleration; }

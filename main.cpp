@@ -27,9 +27,8 @@ int main() {
     RenderWindow window(vm,"Space Shooter");
     window.setFramerateLimit(60);
 
-    Texture t2, t3, t4, bg1, bg2, explosion;
+    Texture t2,t4, bg1, bg2, explosion;
     t2.loadFromFile("assets/bullet.png");
-    t3.loadFromFile("assets/ship.png");
     t4.loadFromFile("assets/asteroid_1.png");
     bg1.loadFromFile("assets/background-stars.png");
     bg2.loadFromFile("assets/background-nebula.png");
@@ -56,7 +55,7 @@ int main() {
 
     Entities::EntityFactory entityFactory;
 
-    class Entities::Player::Player *player = entityFactory.GeneratePlayer(t3, 0, gWindow_h / 2, 5);
+    class Entities::Player::Player *player = entityFactory.GeneratePlayer();
     entities.push_back(player);
 
     while (window.isOpen()) {
@@ -70,22 +69,21 @@ int main() {
             if (event.type == Event::Closed)
                 window.close();
 
-        if(Keyboard::isKeyPressed(Keyboard::Right)) player->x += player->speed;
-        if(Keyboard::isKeyPressed(Keyboard::Left))  player->x -= player->speed;
-        if(Keyboard::isKeyPressed(Keyboard::Up))    player->y -= player->speed;
-        if(Keyboard::isKeyPressed(Keyboard::Down))  player->y += player->speed;
-        if(Keyboard::isKeyPressed(Keyboard::Escape)) window.close();
-        player->handleSprite();
+        if(Keyboard::isKeyPressed(Keyboard::Right))    player->handleSprite(Keyboard::Right);
+        if(Keyboard::isKeyPressed(Keyboard::Left))     player->handleSprite(Keyboard::Left);
+        if(Keyboard::isKeyPressed(Keyboard::Up))       player->handleSprite(Keyboard::Up);
+        if(Keyboard::isKeyPressed(Keyboard::Down))     player->handleSprite(Keyboard::Down);
+        if(Keyboard::isKeyPressed(Keyboard::Escape))   window.close();
 
-        if(Keyboard::isKeyPressed(Keyboard::Space) && delay < player_bullet_timer) {
-            int x = player->x + player->w / 2, y = (player->y + (player->h / 2)) + sBulletBounds.height / 2.0;
-            Bullet bullet;
-            bullet.x = x; bullet.y = y, bullet.dx = player_bullet_speed;
-            std::cout << "PLAYER Y: " << player->y << "\t" << "BULLET Y: " << bullet.y << std::endl;
-            bullets.push_back(bullet);
-            player_bullet_timer = 0;
-            std::cout << "BULLET CREATED Y POSITION: " << bullets[bullets.size() - 1].y << "\tBULLETS SIZE: " << bullets.size() << std::endl;
-        }
+        // if(Keyboard::isKeyPressed(Keyboard::Space) && delay < player_bullet_timer) {
+        //     int x = player->getSprite().getPosition().x + player->getSprite().getLocalBounds().width / 2, y = (player.spirte.getPosition().y + (player->getSprite().getLocalBounds().height / 2)) + sBulletBounds.height / 2.0;
+        //     Bullet bullet;
+        //     bullet.x = x; bullet.y = y, bullet.dx = player_bullet_speed;
+        //     std::cout << "PLAYER Y: " << player.spirte.getPosition().y << "\t" << "BULLET Y: " << bullet.y << std::endl;
+        //     bullets.push_back(bullet);
+        //     player_bullet_timer = 0;
+        //     std::cout << "BULLET CREATED Y POSITION: " << bullets[bullets.size() - 1].y << "\tBULLETS SIZE: " << bullets.size() << std::endl;
+        // }
         if(std::rand() % 10 + 1 > 1 && asteroid_delay < asteroid_timer) {
             int x = gWindow_w, y = std::rand() % gWindow_h;
             Asteroid asteroid;
@@ -114,12 +112,12 @@ int main() {
         window.draw(sBg2);
         window.draw(sBg2_copy);
 
-        // player->sprite.setPosition(player->x, player->y);
-        sf::Vector2f thrusterPos((float)player->x + 10, (float)player->y + ((float)player->h / 2));
-        particles.setEmitter(thrusterPos);
+        // player->getSprite().setPosition(player->getSprite().getPosition().x, player.spirte.getPosition().y);
+        // sf::Vector2f thrusterPos((float)player->getSprite().getPosition().x + 10, (float)player.spirte.getPosition().y + ((float)player->getSprite().getLocalBounds().height / 2));
+        // particles.setEmitter(thrusterPos);
         window.draw(particles);
         
-        // window.draw(player->sprite);
+        // window.draw(player->getSprite());
         // update it
 
         for(unsigned i = 0;  i < bullets.size(); i++) {
@@ -170,10 +168,10 @@ int main() {
                 asteroids[i].y -= 1 * asteroids[i].dy;
                 asteroids[i].x += 1 * asteroids[i].dx;
             }
-                if(asteroids[i].x > player->x && asteroids[i].x < player->x + player->w
-                    && asteroids[i].y > player->y && asteroids[i].y < player->y + player->h) {
-                    std::cout << "PLAYER HIT!" << std::endl;
-                }
+                // if(asteroids[i].x > player->getSprite().getPosition().x && asteroids[i].x < player->getSprite().getPosition().x + player->getSprite().getLocalBounds().width
+                //     && asteroids[i].y > player.spirte.getPosition().y && asteroids[i].y < player.spirte.getPosition().y + player->getSprite().getLocalBounds().height) {
+                //     std::cout << "PLAYER HIT!" << std::endl;
+                // }
             window.draw(sAsteroid);
         }
         window.display();

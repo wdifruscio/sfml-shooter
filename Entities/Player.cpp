@@ -1,31 +1,38 @@
 #include "Player.hpp"
+#include <stdio.h>
+#include <iostream>
 #include <SFML/Graphics.hpp>
 
 namespace Entities
 {
-    Player::Player(sf::Texture &texture, int start_x, int start_y, int initSpeed){
-        setTexture(texture);
+    Player::Player(){
+        sf::Texture t;
+        t.loadFromFile("assets/ship.png");
+        setTexture(t);
         bindTexture();
-        x = start_x; y = start_y; speed = initSpeed; // Inital starting position and speed
-        sf::FloatRect localBounds = sprite.getLocalBounds();
-        w = localBounds.width;
-        h = localBounds.height;
-        sprite.setPosition(x,y);
+        sf::Vector2f vel(5.0f, 5.0f);        
+        setVelocity(vel);
+        sf::Vector2f pos(50,440);
+        setPosition(pos);
     };
 
     Player::~Player(){};
 
-    void Player::handleSprite() 
+    void Player::handleSprite(sf::Keyboard::Key key) 
     {
-        if(x > 1440) x -= speed;
-        if(x < -20) x += speed;
-        if(y  <  0) y += speed;
-        if(y > 900) y -= speed;
+        sf::Vector2f pos = getPosition();
+        sf::Vector2f vel = getVelocity();
+        sf::Vector2f newPos(pos.x, pos.y);
+        if(key == sf::Keyboard::Right) newPos.x += vel.x; 
+        if(key == sf::Keyboard::Left) newPos.x -= vel.x;
+        if(key == sf::Keyboard::Up) newPos.y -= vel.y;
+        if(key == sf::Keyboard::Down) newPos.y += vel.y;
+        setPosition(newPos);
+        std::cout << "pos.x: " << newPos.x << "pos.y " << newPos.y << std::endl;
     }
 
     void Player::update()
     {
-        handleSprite();
-        sprite.setPosition(x,y);
+        sprite.setPosition(getPosition());
     }
 }
