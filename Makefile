@@ -1,5 +1,5 @@
 
-OBJS = main.cpp Entities/Player.cpp Animation.cpp
+OBJS = main.cpp Entities/Asteroid.cpp Entities/Player.cpp Animation.cpp
 CC = g++
 COMPILER_FLAGS = -W -std=c++11
 LINKER_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system

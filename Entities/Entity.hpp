@@ -43,6 +43,7 @@ namespace Entities{
         EntityType   getType()         { return type; }
         sf::Texture  getTexture()      { return texture; }
         sf::Shape*   getShape()        { return shape; }
+        sf::Sprite   getSprite()        { return sprite; }
 
         // //// PURE VIRTUAL ////
         virtual void update(void) = 0;

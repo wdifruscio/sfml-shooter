@@ -4,8 +4,9 @@
 #include <vector>
 #include <list>
 #include <time.h>
-#include "Entities/Player.hpp"
 #include "Entities/Entity.hpp"
+#include "Entities/Asteroid.hpp"
+#include "Entities/Player.hpp"
 #include "Entities/EntityFactory.hpp"
 #include "ParticleSystem.cpp"
 #include "Animation.hpp"
@@ -74,7 +75,6 @@ int main() {
         if(Keyboard::isKeyPressed(Keyboard::Up))       player->handleSprite(Keyboard::Up);
         if(Keyboard::isKeyPressed(Keyboard::Down))     player->handleSprite(Keyboard::Down);
         if(Keyboard::isKeyPressed(Keyboard::Escape))   window.close();
-
         // if(Keyboard::isKeyPressed(Keyboard::Space) && delay < player_bullet_timer) {
         //     int x = player->getSprite().getPosition().x + player->getSprite().getLocalBounds().width / 2, y = (player.spirte.getPosition().y + (player->getSprite().getLocalBounds().height / 2)) + sBulletBounds.height / 2.0;
         //     Bullet bullet;
@@ -86,9 +86,13 @@ int main() {
         // }
         if(std::rand() % 10 + 1 > 1 && asteroid_delay < asteroid_timer) {
             int x = gWindow_w, y = std::rand() % gWindow_h;
-            Asteroid asteroid;
-            asteroid.x = x; asteroid.y = y; asteroid.dx = rand() % 10 - 4; asteroid.dy = rand() % 8 - 4;
-            asteroids.push_back(asteroid);
+            Entities::Asteroid *asteroid = new Entities::Asteroid();
+            Vector2f pos(x,y);
+            Vector2f vel(rand() % 10 - 4, rand() % 8 - 4);
+            asteroid->setPosition(pos);
+            asteroid->setVelocity(vel);
+            entities.push_back(asteroid);
+            std::cout << "asteroid made.. num of entities: " << entities.size() << std::endl;
             asteroid_timer = 0;
         }
         sf::Time elapsed = clock.restart();
@@ -102,6 +106,10 @@ int main() {
         sBg2.move(-sBg2_dx, 0);
         sBg2_copy.move(-sBg2_dx, 0);
 
+        sf::Vector2f thrusterPos(player->getPosition().x + 10, player->getPosition().y + (player->getSprite().getLocalBounds().height / 2));
+        particles.setEmitter(thrusterPos);
+        window.draw(particles);
+
         for(auto a : entities) {
             a->update();
             a->draw(window);
@@ -111,11 +119,6 @@ int main() {
         window.draw(sBg1);
         window.draw(sBg2);
         window.draw(sBg2_copy);
-
-        // player->getSprite().setPosition(player->getSprite().getPosition().x, player.spirte.getPosition().y);
-        // sf::Vector2f thrusterPos((float)player->getSprite().getPosition().x + 10, (float)player.spirte.getPosition().y + ((float)player->getSprite().getLocalBounds().height / 2));
-        // particles.setEmitter(thrusterPos);
-        window.draw(particles);
         
         // window.draw(player->getSprite());
         // update it

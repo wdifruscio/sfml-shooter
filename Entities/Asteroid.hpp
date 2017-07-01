@@ -1,17 +1,19 @@
-#ifndef PLAYER
-#define PLAYER
+#ifndef ASTEROID_H
+#define ASTEROID_H
+
 
 #include <SFML/Graphics.hpp>
 #include "Entity.hpp"
+
 #include <string>
 
 namespace Entities{
-    class Player : public Entity
+    class Asteroid : public Entity
     {
         public:
-        Player();
-        ~Player();
-        void handleSprite(sf::Keyboard::Key);
+        Asteroid();
+        ~Asteroid();
+        void handleSprite();
         virtual void update();
     };
 }

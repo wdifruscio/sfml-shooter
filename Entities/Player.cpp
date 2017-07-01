@@ -10,8 +10,10 @@ namespace Entities
         t.loadFromFile("assets/ship.png");
         setTexture(t);
         bindTexture();
+
         sf::Vector2f vel(5.0f, 5.0f);        
         setVelocity(vel);
+
         sf::Vector2f pos(50,440);
         setPosition(pos);
     };
@@ -28,7 +30,7 @@ namespace Entities
         if(key == sf::Keyboard::Up) newPos.y -= vel.y;
         if(key == sf::Keyboard::Down) newPos.y += vel.y;
         setPosition(newPos);
-        std::cout << "pos.x: " << newPos.x << "pos.y " << newPos.y << std::endl;
+        // std::cout << "pos.x: " << newPos.x << "pos.y " << newPos.y << std::endl;
     }
 
     void Player::update()
