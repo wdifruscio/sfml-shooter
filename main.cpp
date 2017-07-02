@@ -134,37 +134,6 @@ int main() {
                 explosions.erase(explosions.begin() + i);
             }
         }
-
-        // for(unsigned i = 0;  i < bullets.size(); i++) {
-        //     sBullet.setPosition(bullets[i].x, bullets[i].y - bullets[i].dx);
-        //     // std::cout << "BULLET POS Y: " << bullets[i].y << std::endl;
-        //     if(bullets[i].x > gWindow_w) {
-        //         bullets.erase(bullets.begin()+i);
-        //         break;
-        //     }
-        //     else {
-        //         bullets[i].x += bullets[i].dx;
-        //     }
-        //     window.draw(sBullet);
-        // }
-
-        // for(unsigned i = 0;  i < asteroids.size(); i++) {
-        //     sAsteroid.setPosition(asteroids[i].x, asteroids[i].y);
-        //     // std::cout << "BULLET POS Y: " << asteroids[i].y << std::endl;
-        //     if(asteroids[i].y > gWindow_h || asteroids[i].y < 0 || asteroids[i].x < 0) {
-        //         asteroids.erase(asteroids.begin()+i);
-        //         break;
-        //     }
-        //     else {
-        //         asteroids[i].y -= 1 * asteroids[i].dy;
-        //         asteroids[i].x += 1 * asteroids[i].dx;
-        //     }
-        //         // if(asteroids[i].x > player->getSprite().getPosition().x && asteroids[i].x < player->getSprite().getPosition().x + player->getSprite().getLocalBounds().width
-        //         //     && asteroids[i].y > player.spirte.getPosition().y && asteroids[i].y < player.spirte.getPosition().y + player->getSprite().getLocalBounds().height) {
-        //         //     std::cout << "PLAYER HIT!" << std::endl;
-        //         // }
-        //     window.draw(sAsteroid);
-        // }
         window.display();
     }
     return 0;
