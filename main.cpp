@@ -93,6 +93,9 @@ int main() {
 
         sBg2.move(-sBg2_dx, 0);
         sBg2_copy.move(-sBg2_dx, 0);
+        window.draw(sBg1);
+        window.draw(sBg2);
+        window.draw(sBg2_copy);
 
         sf::Vector2f thrusterPos(player->getPosition().x + 10, player->getPosition().y + (player->getSprite().getLocalBounds().height / 2));
         particles.setEmitter(thrusterPos);
@@ -101,12 +104,7 @@ int main() {
         for(auto a : entities) {
             a->update();
             a->draw(window);
-        }
-
-
-        window.draw(sBg1);
-        window.draw(sBg2);
-        window.draw(sBg2_copy);
+        }        
         
         // window.draw(player->getSprite());
         // update it
