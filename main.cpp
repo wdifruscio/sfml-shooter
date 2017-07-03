@@ -34,7 +34,7 @@ int main() {
     // bg3.loadFromFile("assets/starlayer3.png");
 
     Sprite sBullet(t2), sAsteroid(t4), sBg1(bg1), sBg2(bg2), sBg2_copy(bg2);
-    Player player(t3, 0, gWindow_h / 2, 5);
+    Entities::Player player(t3, 0, gWindow_h / 2, 5);
     FloatRect sBulletBounds = sBullet.getLocalBounds();
     FloatRect sAsteroidBounds = sAsteroid.getLocalBounds();
 
