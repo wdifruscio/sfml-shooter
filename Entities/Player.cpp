@@ -11,7 +11,7 @@ namespace Entities
         setTexture(t);
         bindTexture();
 
-        sf::Vector2f vel(5.0f, 5.0f);        
+        sf::Vector2f vel(5.0f, 5.0f);
         setVelocity(vel);
 
         sf::Vector2f pos(50,440);
@@ -20,12 +20,12 @@ namespace Entities
 
     Player::~Player(){};
 
-    void Player::handleSprite(sf::Keyboard::Key key) 
+    void Player::handleSprite(sf::Keyboard::Key key)
     {
         sf::Vector2f pos = getPosition();
         sf::Vector2f vel = getVelocity();
         sf::Vector2f newPos(pos.x, pos.y);
-        if(key == sf::Keyboard::Right) newPos.x += vel.x; 
+        if(key == sf::Keyboard::Right) newPos.x += vel.x;
         if(key == sf::Keyboard::Left) newPos.x -= vel.x;
         if(key == sf::Keyboard::Up) newPos.y -= vel.y;
         if(key == sf::Keyboard::Down) newPos.y += vel.y;
@@ -37,4 +37,7 @@ namespace Entities
     {
         sprite.setPosition(getPosition());
     }
+
+    void update(){}
+    void setEntityBounds(){}
 }

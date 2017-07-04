@@ -13,6 +13,7 @@
 #include "Animation.hpp"
 
 using namespace sf;
+using namespace Entities;
 
 int main() {
     ParticleSystem particles(1000);

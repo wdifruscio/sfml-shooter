@@ -34,12 +34,12 @@ namespace Physics{
             for(int i = 0; i < NUM_VERTICES; ++i){
                 int j = i+1 < NUM_VERTICES ? i+1 : 0;
 
-                aNormal  = getNormal(a->getPoint(j), a->getPoint(i));
+                aNormal  = getNormal(a->getPoint(i), a->getPoint(j));
                 bSupport = getSupportPoint(b, -aNormal);
                 aFace    = a->getPoint(i);
                 dotProduct = Dot(aNormal, bSupport - aFace);
 
-                if(dotProduct >bestDistance){
+                if(dotProduct > bestDistance){
                     bestDistance = dotProduct;
                     bestIndex = i;
                 }

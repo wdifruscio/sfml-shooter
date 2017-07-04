@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "Entity.hpp"
 #include <string>
+#include "Entity.hpp"
 
 namespace Entities{
     class Player : public Entity

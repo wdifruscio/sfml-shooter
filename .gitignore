@@ -4,3 +4,4 @@ npm-debug.log
 *.o
 *.h.gch
 *.hpp.gch
+*.xml

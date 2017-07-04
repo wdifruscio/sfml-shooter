@@ -17,14 +17,16 @@ class QuadTree{
 protected:
     uint8_t *ui8Nodes;
     QuadTreeNode *ptnLevels[6];
+    float inverseSizeX;
+    float inverseSizeY;
     Screen screen;
-    QuadTreeNode* Root();
+    QuadTreeNode *root;
 public:
     QuadTree();
     ~QuadTree();
     bool CreateQuadTree(std::size_t initSize);
     void Reset();
-    QuadTreeNode* Root() const;
+    QuadTreeNode* Root() const{ return root; };
 };
 
 #endif
