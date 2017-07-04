@@ -24,7 +24,7 @@ namespace Entities{
         sf::Sprite      sprite;
         sf::Shape       *shape;
     public:
-
+        bool         isAlive = true;
         //// SETTERS ////
         void         setPosition     (const sf::Vector2f &pos) { position.x = pos.x; position.y = pos.y; }
         void         setVelocity     (const sf::Vector2f &vel) { velocity.x = vel.x; velocity.y = vel.y; }

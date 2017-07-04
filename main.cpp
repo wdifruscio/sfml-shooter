@@ -41,7 +41,7 @@ int main() {
     Clock clock;
     std::srand ((unsigned)std::time(NULL));
     std::vector<Animation> explosions;
-    std::list<Entities::Entity*> entities;
+    std::vector<Entities::Entity*> entities;
 
     Entities::EntityFactory entityFactory;
 
@@ -101,9 +101,16 @@ int main() {
         particles.setEmitter(thrusterPos);
         window.draw(particles);
 
-        for(auto a : entities) {
-            a->update();
-            a->draw(window);
+        for(unsigned i = 0; i < entities.size(); i++) {
+            Entities::Entity *a = entities[i];
+            if(a->isAlive) {
+                a->update();                
+                a->draw(window);
+            }
+            else {
+                entities.erase(entities.begin() + i);
+                std::cout << "removing entity , num of entities: " << entities.size() << std::endl;
+            } 
         }        
         
         // window.draw(player->getSprite());

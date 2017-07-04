@@ -24,5 +24,9 @@ namespace Entities
         pos.x += 20;
         setPosition(pos);
         sprite.setPosition(pos);
+
+        if(pos.x > 1440 || pos.x < 0 || pos.y > 900 || pos.y < 0) {
+            isAlive = false;
+        }
     }
 }
