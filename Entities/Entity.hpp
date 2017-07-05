@@ -4,6 +4,11 @@
 #include <SFML/Graphics.hpp>
 #include "../Animation.hpp"
 
+<<<<<<< 9113d0ba44d742a7fd0941622a67bf4cc8b48256
+=======
+class QuadNode;
+
+>>>>>>> some more changes...
 namespace Entities{
 
     enum EntityType{
@@ -36,7 +41,12 @@ namespace Entities{
         Bounds          bounds;
 
     public:
+<<<<<<< 9113d0ba44d742a7fd0941622a67bf4cc8b48256
         bool         isAlive = true;
+=======
+        Entity(){};
+
+>>>>>>> some more changes...
         //// SETTERS ////
         void         setPosition     (const sf::Vector2f &pos) { position.x = pos.x; position.y = pos.y; }
         void         setVelocity     (const sf::Vector2f &vel) { velocity.x = vel.x; velocity.y = vel.y; }

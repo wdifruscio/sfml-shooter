@@ -79,6 +79,10 @@ namespace Physics{
             this->level = level;
         }
 
+        void Clear(){
+            objects.clear();
+        }
+
         sf::Vector2f GetRadius() const { return radius; }
         sf::Vector2f GetCenter() const { return center; }
     };
@@ -99,7 +103,7 @@ namespace Physics{
         bool CreateQuadTree(const sf::Vector2f &screen);
         QuadNode* InsertObject(Entity *pObject);
         void Reset();
-        std::vector<Entity*> Retrieve(QuadNode * qn); 
+        std::vector<Entity*> Retrieve(QuadNode * qn);
     };
 
 }

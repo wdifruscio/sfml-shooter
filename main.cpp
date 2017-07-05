@@ -105,15 +105,15 @@ int main() {
         for(unsigned i = 0; i < entities.size(); i++) {
             Entities::Entity *a = entities[i];
             if(a->isAlive) {
-                a->update();                
+                a->update();
                 a->draw(window);
             }
             else {
                 entities.erase(entities.begin() + i);
                 std::cout << "removing entity , num of entities: " << entities.size() << std::endl;
-            } 
-        }        
-        
+            }
+        }
+
         // window.draw(player->getSprite());
         // update it
 

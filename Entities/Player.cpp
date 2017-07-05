@@ -3,6 +3,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+
 namespace Entities
 {
     Player::Player(){
@@ -33,8 +34,7 @@ namespace Entities
         // std::cout << "pos.x: " << newPos.x << "pos.y " << newPos.y << std::endl;
     }
 
-    void Player::update()
-    {
+    void Player::update(){
         sprite.setPosition(getPosition());
     }
 
