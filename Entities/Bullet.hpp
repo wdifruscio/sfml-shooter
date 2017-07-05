@@ -1,17 +1,19 @@
-#ifndef PLAYER
-#define PLAYER
+#ifndef BULLET_H
+#define BULLET_H
+
 
 #include <SFML/Graphics.hpp>
 #include "Entity.hpp"
+
 #include <string>
 
 namespace Entities{
-    class Player : public Entity
+    class Bullet : public Entity
     {
         public:
-        Player();
-        ~Player();
-        void handleSprite(sf::Keyboard::Key);
+        Bullet();
+        ~Bullet();
+        void handleSprite();
         virtual void update();
     };
 }

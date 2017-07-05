@@ -38,6 +38,7 @@
         "cstring": "cpp",
         "memory": "cpp",
         "bitset": "cpp",
-        "iterator": "cpp"
+        "iterator": "cpp",
+        "__bit_reference": "cpp"
     }
 }
