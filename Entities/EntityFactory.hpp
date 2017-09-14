@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Entity.hpp"
+#include "Player.hpp"
 
 namespace Entities {
 
@@ -10,7 +11,7 @@ namespace Entities {
         private:
         protected:
         public:
-        class Player::Player* GeneratePlayer() { return new class Player::Player(); };
+        class Player* GeneratePlayer() { return new class Player(); };
     };
 
 }

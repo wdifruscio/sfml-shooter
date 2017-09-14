@@ -16,7 +16,8 @@ namespace Entities{
 
     typedef struct Boundaries{
         float minX, maxX, minY, maxY;
-        constexpr Boundaries(float x1, float  x2, float y1, float y2)
+        Boundaries(){}
+        Boundaries(float x1, float  x2, float y1, float y2)
         : minX(x1), maxX(x2), minY(y1), maxY(y2) {}
     } Bounds;
 
@@ -30,12 +31,15 @@ namespace Entities{
         EntityType      type;
         sf::Texture     texture;
         sf::Sprite      sprite;
-        sf::Shape       *shape;
+        sf::ConvexShape *shape;
         Animation       *animation;
 
         Bounds          bounds;
 
     public:
+        Entity(){}
+        ~Entity(){}
+
         bool         isAlive = true;
 
         //// SETTERS ////
@@ -45,8 +49,8 @@ namespace Entities{
         void         setAcceleration (float acc)               { this->acceleration = acc; }
         void         setType         (EntityType type)         { this->type = type; }
         void         setTexture      (sf::Texture &texture)    { this->texture = texture; }
-        void         setShape        (sf::Shape *shape)        { this->shape = shape; }
-        void         bindTexture()                             { sprite.setTexture(this->texture); }
+        void         setShape        (sf::ConvexShape *shape)  { this->shape = shape; }
+        void         bindTexture     ()                        { sprite.setTexture(this->texture); }
         void         setAnimation    (Animation *animation)    { this->animation = animation; }
 
         void         setEntityBounds (const sf::Vector2f &min, const sf::Vector2f &max) {
@@ -60,10 +64,10 @@ namespace Entities{
         float        getAcceleration() { return acceleration; }
         EntityType   getType()         { return type; }
         sf::Texture  getTexture()      { return texture; }
-        sf::Shape*   getShape()        { return shape; }
-        sf::Sprite   getSprite()        { return sprite; }
+        sf::Sprite   getSprite()       { return sprite; }
         Animation*   getAnimation()    { return animation; }
         Bounds       getBounds()       { return bounds; }
+        sf::ConvexShape*   getShape()        { return shape; }
 
         // //// PURE VIRTUAL ////
         virtual void update(void) = 0;

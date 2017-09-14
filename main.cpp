@@ -81,13 +81,16 @@ int main() {
             asteroid->setPosition(pos);
             asteroid->setVelocity(vel);
             entities.push_back(asteroid);
-            std::cout << "asteroid made.. num of entities: " << entities.size() << std::endl;
+            //std::cout << "asteroid made.. num of entities: " << entities.size() << std::endl;
             asteroid_timer = 0;
         }
         sf::Time elapsed = clock.restart();
         particles.update(elapsed);
 
         window.clear();
+        sf:ConvexShape s = new sf::ConvexShape(3);
+        uint h = 0;
+        s.setPoint(h, new sf::Vector2f(0, 0));
 
         if(sBg2.getPosition().x < -sBg2.getLocalBounds().width) sBg2.setPosition(0, 0);
         if(sBg2_copy.getPosition().x < 0) sBg2_copy.setPosition(sBg2.getLocalBounds().width, 0);
@@ -102,7 +105,7 @@ int main() {
         particles.setEmitter(thrusterPos);
         window.draw(particles);
 
-        for(unsigned i = 0; i < entities.size(); i++) {
+        for(uint i = 0; i < entities.size(); i++) {
             Entities::Entity *a = entities[i];
             if(a->isAlive) {
                 a->update();
@@ -110,7 +113,7 @@ int main() {
             }
             else {
                 entities.erase(entities.begin() + i);
-                std::cout << "removing entity , num of entities: " << entities.size() << std::endl;
+                //std::cout << "removing entity , num of entities: " << entities.size() << std::endl;
             }
         }
 
@@ -131,7 +134,7 @@ int main() {
         //     }
         // }
 
-        for(unsigned i = 0; i < explosions.size(); i++) {
+        for(uint i = 0; i < explosions.size(); i++) {
             if(!explosions[i].isEnd()) {
                 explosions[i].update();
                 explosions[i].draw(window);
