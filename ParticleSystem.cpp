@@ -1,3 +1,5 @@
+
+#include <SFML/Graphics.hpp>
 #include <cmath>
 
 class ParticleSystem : public sf::Drawable, public sf::Transformable

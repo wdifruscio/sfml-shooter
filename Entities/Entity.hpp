@@ -2,6 +2,7 @@
 #define ENTITY_H
 
 #include <SFML/Graphics.hpp>
+#include "../Animation.hpp"
 
 namespace Entities{
 
@@ -9,10 +10,18 @@ namespace Entities{
         Player,
         Foe,
         Projectile,
-        Debris
+        Debris,
+        Generic
     };
 
-    class Entity /*: sf::Drawable */{
+    typedef struct Boundaries{
+        float minX, maxX, minY, maxY;
+        Boundaries(){}
+        Boundaries(float x1, float  x2, float y1, float y2)
+        : minX(x1), maxX(x2), minY(y1), maxY(y2) {}
+    } Bounds;
+
+    class Entity {
     private:
     protected:
         sf::Vector2f    position;
@@ -22,9 +31,17 @@ namespace Entities{
         EntityType      type;
         sf::Texture     texture;
         sf::Sprite      sprite;
-        sf::Shape       *shape;
+        sf::ConvexShape *shape;
+        Animation       *animation;
+
+        Bounds          bounds;
+
     public:
+        Entity(){}
+        ~Entity(){}
+
         bool         isAlive = true;
+
         //// SETTERS ////
         void         setPosition     (const sf::Vector2f &pos) { position.x = pos.x; position.y = pos.y; }
         void         setVelocity     (const sf::Vector2f &vel) { velocity.x = vel.x; velocity.y = vel.y; }
@@ -32,8 +49,13 @@ namespace Entities{
         void         setAcceleration (float acc)               { this->acceleration = acc; }
         void         setType         (EntityType type)         { this->type = type; }
         void         setTexture      (sf::Texture &texture)    { this->texture = texture; }
-        void         setShape        (sf::Shape *shape)        { this->shape = shape; }
-        void         bindTexture()                             { sprite.setTexture(this->texture); }
+        void         setShape        (sf::ConvexShape *shape)  { this->shape = shape; }
+        void         bindTexture     ()                        { sprite.setTexture(this->texture); }
+        void         setAnimation    (Animation *animation)    { this->animation = animation; }
+
+        void         setEntityBounds (const sf::Vector2f &min, const sf::Vector2f &max) {
+            bounds.minX = min.x; bounds.minY = min.y; bounds.maxX = max.x; bounds.maxY = max.y;
+        }
 
         //// GETTERS ////
         sf::Vector2f getPosition()     { return position; }
@@ -42,14 +64,16 @@ namespace Entities{
         float        getAcceleration() { return acceleration; }
         EntityType   getType()         { return type; }
         sf::Texture  getTexture()      { return texture; }
-        sf::Shape*   getShape()        { return shape; }
-        sf::Sprite   getSprite()        { return sprite; }
+        sf::Sprite   getSprite()       { return sprite; }
+        Animation*   getAnimation()    { return animation; }
+        Bounds       getBounds()       { return bounds; }
+        sf::ConvexShape*   getShape()        { return shape; }
 
         // //// PURE VIRTUAL ////
         virtual void update(void) = 0;
         void draw(sf::RenderWindow &window) { window.draw(sprite); }
     };
-
 }
+
 
 #endif
