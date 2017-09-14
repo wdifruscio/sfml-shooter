@@ -68,9 +68,5 @@ namespace Physics{
         return sf::Vector2f(s*a.y, -s*a.x);
     }
 
-    // PUBLIC
-    static bool CheckCollision(sf::ConvexShape *a, sf::ConvexShape *b){
-        return false;
-    }
 
 }
