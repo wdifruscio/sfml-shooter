@@ -15,14 +15,16 @@
 using namespace sf;
 using namespace Entities;
 
-int main() {
+int main()
+{
     ParticleSystem particles(1000);
-    int gWindow_w = 1440; int gWindow_h = 900;
+    int gWindow_w = 1440;
+    int gWindow_h = 900;
     VideoMode vm(gWindow_w, gWindow_h);
-    RenderWindow window(vm,"Space Shooter");
+    RenderWindow window(vm, "Space Shooter");
     window.setFramerateLimit(60);
 
-    Texture t2,t4, bg1, bg2, explosion;
+    Texture t2, t4, bg1, bg2, explosion;
     t2.loadFromFile("assets/bullet.png");
     bg1.loadFromFile("assets/background-stars.png");
     bg2.loadFromFile("assets/background-nebula.png");
@@ -40,43 +42,51 @@ int main() {
     float player_bullet_timer = 0.0f, delay = 0.2f, time = 0.0f, asteroid_timer = 0.0f, asteroid_delay = 0.2f, explosion_delay = 0.0f;
     float sBg2_dx = 0.1f;
     Clock clock;
-    std::srand ((unsigned)std::time(NULL));
+    std::srand((unsigned)std::time(NULL));
     std::vector<Animation> explosions;
-    std::vector<Entities::Entity*> entities;
+    std::vector<Entities::Entity *> entities;
 
     Entities::EntityFactory entityFactory;
 
     class Entities::Player::Player *player = entityFactory.GeneratePlayer();
     entities.push_back(player);
 
-    while (window.isOpen()) {
+    while (window.isOpen())
+    {
         time = clock.getElapsedTime().asSeconds();
         clock.restart();
         player_bullet_timer += time;
         asteroid_timer += time;
 
         Event event;
-        while(window.pollEvent(event))
+        while (window.pollEvent(event))
             if (event.type == Event::Closed)
                 window.close();
 
-        if(Keyboard::isKeyPressed(Keyboard::Right))    player->handleSprite(Keyboard::Right);
-        if(Keyboard::isKeyPressed(Keyboard::Left))     player->handleSprite(Keyboard::Left);
-        if(Keyboard::isKeyPressed(Keyboard::Up))       player->handleSprite(Keyboard::Up);
-        if(Keyboard::isKeyPressed(Keyboard::Down))     player->handleSprite(Keyboard::Down);
-        if(Keyboard::isKeyPressed(Keyboard::Escape))   window.close();
+        if (Keyboard::isKeyPressed(Keyboard::Right))
+            player->handleSprite(Keyboard::Right);
+        if (Keyboard::isKeyPressed(Keyboard::Left))
+            player->handleSprite(Keyboard::Left);
+        if (Keyboard::isKeyPressed(Keyboard::Up))
+            player->handleSprite(Keyboard::Up);
+        if (Keyboard::isKeyPressed(Keyboard::Down))
+            player->handleSprite(Keyboard::Down);
+        if (Keyboard::isKeyPressed(Keyboard::Escape))
+            window.close();
 
-        if(Keyboard::isKeyPressed(Keyboard::Space) && delay < player_bullet_timer) {
+        if (Keyboard::isKeyPressed(Keyboard::Space) && delay < player_bullet_timer)
+        {
             Entities::Bullet *bullet = new Entities::Bullet();
-            sf::Vector2f bulpos(player->getPosition().x, player->getSprite().getPosition().y + ( player->getSprite().getLocalBounds().height/2) - (bullet->getSprite().getLocalBounds().height / 2));
+            sf::Vector2f bulpos(player->getPosition().x, player->getSprite().getPosition().y + (player->getSprite().getLocalBounds().height / 2) - (bullet->getSprite().getLocalBounds().height / 2));
             bullet->setPosition(bulpos);
             entities.push_back(bullet);
             player_bullet_timer = 0;
         }
-        if(std::rand() % 10 + 1 > 1 && asteroid_delay < asteroid_timer) {
+        if (std::rand() % 10 + 1 > 1 && asteroid_delay < asteroid_timer)
+        {
             int x = gWindow_w, y = std::rand() % gWindow_h;
             Entities::Asteroid *asteroid = new Entities::Asteroid();
-            Vector2f pos(x,y);
+            Vector2f pos(x, y);
             Vector2f vel(rand() % 10 - 4, rand() % 8 - 4);
             asteroid->setPosition(pos);
             asteroid->setVelocity(vel);
@@ -88,12 +98,16 @@ int main() {
         particles.update(elapsed);
 
         window.clear();
-        sf:ConvexShape s = new sf::ConvexShape(3);
+        std::size_t len = 3;
+        sf::ConvexShape *s = new sf::ConvexShape(len);
         uint h = 0;
-        s.setPoint(h, new sf::Vector2f(0, 0));
+        sf::Vector2f vtest(0, 0);
+        s->setPoint(h, vtest);
 
-        if(sBg2.getPosition().x < -sBg2.getLocalBounds().width) sBg2.setPosition(0, 0);
-        if(sBg2_copy.getPosition().x < 0) sBg2_copy.setPosition(sBg2.getLocalBounds().width, 0);
+        if (sBg2.getPosition().x < -sBg2.getLocalBounds().width)
+            sBg2.setPosition(0, 0);
+        if (sBg2_copy.getPosition().x < 0)
+            sBg2_copy.setPosition(sBg2.getLocalBounds().width, 0);
 
         sBg2.move(-sBg2_dx, 0);
         sBg2_copy.move(-sBg2_dx, 0);
@@ -105,13 +119,16 @@ int main() {
         particles.setEmitter(thrusterPos);
         window.draw(particles);
 
-        for(uint i = 0; i < entities.size(); i++) {
+        for (uint i = 0; i < entities.size(); i++)
+        {
             Entities::Entity *a = entities[i];
-            if(a->isAlive) {
+            if (a->isAlive)
+            {
                 a->update();
                 a->draw(window);
             }
-            else {
+            else
+            {
                 entities.erase(entities.begin() + i);
                 //std::cout << "removing entity , num of entities: " << entities.size() << std::endl;
             }
@@ -134,12 +151,15 @@ int main() {
         //     }
         // }
 
-        for(uint i = 0; i < explosions.size(); i++) {
-            if(!explosions[i].isEnd()) {
+        for (uint i = 0; i < explosions.size(); i++)
+        {
+            if (!explosions[i].isEnd())
+            {
                 explosions[i].update();
                 explosions[i].draw(window);
             }
-            else {
+            else
+            {
                 explosions.erase(explosions.begin() + i);
             }
         }
